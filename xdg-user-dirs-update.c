@@ -52,17 +52,6 @@ directory_new (const char *name, const char *path)
   return dir;
 }
 
-static char *
-strdup_end (const char *start, const char *end)
-{
-  char *res;
-
-  res = g_malloc (end - start + 1);
-  memcpy (res, start, end - start);
-  res[end-start] = 0;
-  return res;
-}
-
 static void
 remove_trailing_whitespace (char *s)
 {
@@ -642,7 +631,7 @@ localize_path_name (const char *path)
 	path++;
       element_end = path;
 
-      element_copy = strdup_end (element, element_end);
+      element_copy = g_strndup (element, element_end - element);
       translated = gettext (element_copy);
 
       res = g_realloc (res, strlen (res) + 1 + strlen (translated) + 1);
