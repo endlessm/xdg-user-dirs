@@ -71,19 +71,13 @@ ascii_str_toupper (char *c)
     }
 }
 
-static int
-is_space (char c)
-{
-  return c == ' ' || c == '\t';
-}
-
 static void
 remove_trailing_whitespace (char *s)
 {
   int len;
 
   len = strlen (s);
-  while (len > 0 && is_space (s[len-1]))
+  while (len > 0 && g_ascii_isspace (s[len-1]))
     {
       s[len-1] = 0;
       len--;
@@ -394,7 +388,7 @@ add_directory (Directory *dirs, Directory *dir)
 static int
 is_true (const char *str)
 {
-  while (is_space (*str))
+  while (g_ascii_isspace (*str))
     str++;
   
   if (*str == '1' ||
@@ -425,7 +419,7 @@ load_config (char *path)
       
       p = buffer;
       /* Skip whitespace */
-      while (is_space (*p))
+      while (g_ascii_isspace (*p))
 	p++;
       
       if (*p == '#')
@@ -442,7 +436,7 @@ load_config (char *path)
 	{
 	  p += strlen ("filename_encoding=");
 
-	  while (is_space (*p))
+	  while (g_ascii_isspace (*p))
 	    p++;
 	  
 	  ascii_str_toupper (p);
@@ -515,23 +509,23 @@ load_default_dirs (void)
       
       p = buffer;
       /* Skip whitespace */
-      while (is_space (*p))
+      while (g_ascii_isspace (*p))
 	p++;
       
       if (*p == '#')
 	continue;
 
       key = p;
-      while (*p && !is_space (*p) && * p != '=')
+      while (*p && !g_ascii_isspace (*p) && * p != '=')
 	p++;
 
       key_end = p;
 
-      while (is_space (*p))
+      while (g_ascii_isspace (*p))
 	p++;
       if (*p == '=')
 	p++;
-      while (is_space (*p))
+      while (g_ascii_isspace (*p))
 	p++;
       
       value = p;
@@ -578,7 +572,7 @@ load_user_dirs (void)
       
       p = buffer;
       /* Skip whitespace */
-      while (is_space (*p))
+      while (g_ascii_isspace (*p))
 	p++;
 
       /* Skip comment lines */
@@ -590,7 +584,7 @@ load_user_dirs (void)
       p += 4;
       key = p;
          
-      while (*p && !is_space (*p) && * p != '=')
+      while (*p && !g_ascii_isspace (*p) && * p != '=')
 	p++;
 
       if (*p == 0)
@@ -604,7 +598,7 @@ load_user_dirs (void)
       if (*p == '=')
 	p++;
 
-      while (is_space (*p))
+      while (g_ascii_isspace (*p))
 	p++;
 
       if (*p++ != '"')
