@@ -6,7 +6,6 @@
 #include <sys/stat.h>
 #include <libintl.h>
 #include <locale.h>
-#include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -251,27 +250,6 @@ filename_from_utf8 (const char *utf8_path)
 }
 
 static char *
-get_home_dir (void)
-{
-  struct passwd *pw;
-  static char *home_dir = NULL;
-
-  if (home_dir != NULL)
-    return home_dir;
-
-  setpwent ();
-  pw = getpwuid (getuid ());
-  endpwent ();
-  
-  if (pw && pw->pw_dir)
-    home_dir = strdup (pw->pw_dir);
-  else
-    home_dir = getenv ("HOME");
-
-  return home_dir;
-}
-
-static char *
 get_user_config_file (const char *filename)
 {
   char *config_home, *file;
@@ -282,7 +260,7 @@ get_user_config_file (const char *filename)
   free_config_home = 0;
   if (config_home == NULL || config_home[0] == 0)
     {
-      config_home = g_build_filename (get_home_dir (), ".config", NULL);
+      config_home = g_build_filename (g_get_home_dir (), ".config", NULL);
       free_config_home = 1;
     }
   
@@ -889,7 +867,7 @@ create_dirs (int force)
 	  if (user_dir->path[0] == '/')
 	    path_name = strdup (user_dir->path);
 	  else
-	    path_name = g_build_filename (get_home_dir (), user_dir->path, NULL);
+	    path_name = g_build_filename (g_get_home_dir (), user_dir->path, NULL);
 	  if (!is_directory (path_name))
 	    {
 	      fprintf (stderr, "%s was removed, reassigning %s to homedir\n",
@@ -911,7 +889,7 @@ create_dirs (int force)
 	  compat_dir = lookup_backwards_compat (default_dir);
 	  if (compat_dir)
 	    {
-	      path_name = g_build_filename (get_home_dir (), compat_dir->path, NULL);
+	      path_name = g_build_filename (g_get_home_dir (), compat_dir->path, NULL);
 	      if (!is_directory (path_name))
 		{
 		  free (path_name);
@@ -932,7 +910,7 @@ create_dirs (int force)
 	  if (relative_path_name[0] == '/')
 	    path_name = strdup (relative_path_name); /* default path was absolute, not homedir relative */
 	  else
-	    path_name = g_build_filename (get_home_dir (), relative_path_name, NULL);
+	    path_name = g_build_filename (g_get_home_dir (), relative_path_name, NULL);
 	}
 	      
       if (user_dir == NULL || strcmp (relative_path_name, user_dir->path) != 0)
@@ -1061,12 +1039,13 @@ main (int argc, char *argv[])
   if (set_dir != NULL)
     {
       Directory *dir;
-      char *path, *home;
+      char *path;
+      const gchar *home;
       /* Set a key */
 
       load_user_dirs ();
 
-      home = get_home_dir ();
+      home = g_get_home_dir ();
 
       path = set_value;
       if (has_prefix (path, home))
