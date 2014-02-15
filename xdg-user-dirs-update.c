@@ -53,24 +53,6 @@ strdup_end (const char *start, const char *end)
   return res;
 }
 
-static char
-ascii_toupper (char c)
-{
-  if (c >= 'a' && c <= 'z')
-    c = (c - 'a') + 'A';
-  return c;
-}
-
-static void
-ascii_str_toupper (char *c)
-{
-  while (*c)
-    {
-      *c = ascii_toupper (*c);
-      c++;  
-    }
-}
-
 static void
 remove_trailing_whitespace (char *s)
 {
@@ -404,6 +386,7 @@ load_config (char *path)
   FILE *file;
   char buffer[512];
   char *p;
+  char *encoding;
   int len;
 
   file = fopen (path, "r");
@@ -438,19 +421,22 @@ load_config (char *path)
 
 	  while (g_ascii_isspace (*p))
 	    p++;
-	  
-	  ascii_str_toupper (p);
-	  remove_trailing_whitespace (p);
+
+          remove_trailing_whitespace (p);  
+          encoding = g_ascii_strup (p, -1);
+
 	  if (filename_encoding)
 	    free (filename_encoding);
 	  
-	  if (strcmp (p, "UTF8") == 0 ||
-	      strcmp (p, "UTF-8") == 0)
+	  if (strcmp (encoding, "UTF8") == 0 ||
+	      strcmp (encoding, "UTF-8") == 0)
 	    filename_encoding = NULL;
-	  else if (strcmp (p, "LOCALE") == 0)
+	  else if (strcmp (encoding, "LOCALE") == 0)
 	    filename_encoding = strdup (nl_langinfo (CODESET));
 	  else
-	    filename_encoding = strdup (p);
+	    filename_encoding = strdup (encoding);
+
+          g_free (encoding);
 	}
     }
 
