@@ -645,32 +645,28 @@ localize_path_name (const char *path)
   return res;
 }
 
+static int
+compare_dir_name (const Directory *dir, const char *name)
+{
+  return strcmp (dir->name, name);
+}
+
+static Directory *
+find_dir (GList *dirs, const char *name)
+{
+  GList *l;
+  l = g_list_find_custom (dirs, name, (GCompareFunc) compare_dir_name);
+  return (l != NULL) ? l->data : NULL;
+}
+
 static Directory *
 lookup_backwards_compat (Directory *dir)
 {
   int i;
   for (i = 0; backwards_compat_dirs[i].name != NULL; i++)
     {
-      if (strcmp (dir->name, backwards_compat_dirs[i].name) == 0)
+      if (compare_dir_name (dir, backwards_compat_dirs[i].name) == 0)
 	return &backwards_compat_dirs[i];
-    }
-  return NULL;
-}
-
-static Directory *
-find_dir (GList *dirs, const char *name)
-{
-  Directory *dir;
-  GList *l;
-
-  if (dirs == NULL)
-    return NULL;
-  
-  for (l = dirs; l != NULL; l = l->next)
-    {
-      dir = l->data;
-      if (strcmp (dir->name, name) == 0)
-	return dir;
     }
   return NULL;
 }
