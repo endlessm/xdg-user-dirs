@@ -66,26 +66,6 @@ remove_trailing_whitespace (char *s)
     }
 }
 
-static int
-is_regular_file (char *path)
-{
-  struct stat statbuf;
-  if (stat (path, &statbuf) == -1)
-    return 0;
-  
-  return S_ISREG(statbuf.st_mode);
-}
-
-static int
-is_directory (char *path)
-{
-  struct stat statbuf;
-  if (stat (path, &statbuf) == -1)
-    return 0;
-  
-  return S_ISDIR(statbuf.st_mode);
-}
-
 static char *
 shell_unescape (char *escaped)
 {
@@ -215,7 +195,7 @@ get_config_files (char *filename)
   file = get_user_config_file (filename);
   if (file)
     {
-      if (is_regular_file (file))
+      if (g_file_test (file, G_FILE_TEST_IS_REGULAR))
 	{
 	  paths = realloc (paths, sizeof (char *) * (numfiles + 2));
 	  paths[numfiles++] = file;
@@ -234,7 +214,7 @@ get_config_files (char *filename)
   for (i = 0; config_paths[i] != NULL; i++)
     {
       file = g_build_filename (config_paths[i], filename, NULL);
-      if (is_regular_file (file))
+      if (g_file_test (file, G_FILE_TEST_IS_REGULAR))
 	{
 	  paths = realloc (paths, sizeof (char *) * (numfiles + 2));
 	  paths[numfiles++] = file;
@@ -743,7 +723,7 @@ create_dirs (int force)
 	    path_name = strdup (user_dir->path);
 	  else
 	    path_name = g_build_filename (g_get_home_dir (), user_dir->path, NULL);
-	  if (!is_directory (path_name))
+	  if (!g_file_test (path_name, G_FILE_TEST_IS_DIR))
 	    {
 	      fprintf (stderr, "%s was removed, reassigning %s to homedir\n",
 		       path_name, user_dir->name);
@@ -765,7 +745,7 @@ create_dirs (int force)
 	  if (compat_dir)
 	    {
 	      path_name = g_build_filename (g_get_home_dir (), compat_dir->path, NULL);
-	      if (!is_directory (path_name))
+	      if (!g_file_test (path_name, G_FILE_TEST_IS_DIR))
 		{
 		  free (path_name);
 		  path_name = NULL;
@@ -833,7 +813,7 @@ main (int argc, char *argv[])
   
   setlocale (LC_ALL, "");
   
-  if (is_directory (LOCALEDIR))
+  if (g_file_test (LOCALEDIR, G_FILE_TEST_IS_DIR))
     locale_dir = strdup (LOCALEDIR);
   else
     {
@@ -853,7 +833,7 @@ main (int argc, char *argv[])
 		{
 		  char *dir = NULL;
 		  dir = g_build_filename (data_paths[i], "locale", NULL);
-		  if (is_directory (dir))
+		  if (g_file_test (dir, G_FILE_TEST_IS_DIR))
 		    locale_dir = dir;
 		  else
 		    free (dir);
