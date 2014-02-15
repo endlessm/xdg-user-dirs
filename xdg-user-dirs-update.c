@@ -86,49 +86,6 @@ is_directory (char *path)
   return S_ISDIR(statbuf.st_mode);
 }
 
-
-static int 
-mkdir_all (char *path)
-{
-  char *p;
-  int revert;
-  int result;
-
-  path = strdup (path);
-
-  result = 1;
-  p = path;
-  while (*p)
-    {
-      /* skip initial slashes */
-      while (*p == '/')
-	p++;
-
-      while (*p && *p != '/')
-	p++;
-
-      revert = 0;
-      if (*p == '/')
-	{
-	  *p = 0;
-	  revert = 1;
-	}
-
-      if ((mkdir (path, 0755) == -1) &&
-	  (errno != EEXIST))
-	{
-	  result = 0;
-	  break;
-	}
-      
-      if (revert)
-	*p = '/';
-    }
-	  
-  free (path);
-  return result;
-}
-
 static char *
 shell_unescape (char *escaped)
 {
@@ -666,7 +623,6 @@ save_user_dirs (void)
   int tmp_fd;
   int res;
   char *dir, *slash;
-  struct stat stat_buf;
 
   res = 1;
 
@@ -680,18 +636,13 @@ save_user_dirs (void)
   slash = strrchr (dir, '/');
   if (slash)
     *slash = 0;
-  
-  if (stat (dir, &stat_buf) == -1 && errno == ENOENT)
+
+  if (g_mkdir_with_parents (dir, 0700) < 0)
     {
-      if (mkdir (dir, 0700) == -1)
-	{
-	  free (dir);
-	  fprintf (stderr, "Can't save user-dirs.dirs, failed to create directory\n");
-	  res = 0;
-	  goto out;
-	}
+      g_printerr ("Can't save user-dirs.dirs, failed to create directory\n");
+      res = 0;
+      goto out;
     }
-  free (dir);
   
   tmp_file = malloc (strlen (user_config_file) + 6 + 1);
   strcpy (tmp_file, user_config_file);
@@ -745,6 +696,7 @@ save_user_dirs (void)
     }
 
  out:
+  free (dir);
   if (tmp_file)
     free (tmp_file);
   free (user_config_file);
@@ -891,7 +843,7 @@ create_dirs (int force)
 	{
 	  /* Don't make the directories if we're writing a dummy output file */
 	  if (dummy_file == NULL &&
-	      !mkdir_all (path_name))
+	      g_mkdir_with_parents (path_name, 0755) < 0)
 	    {
 	      fprintf (stderr, "Can't create dir %s\n", path_name);
 	    }
