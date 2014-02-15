@@ -53,12 +53,6 @@ strdup_end (const char *start, const char *end)
   return res;
 }
 
-static int
-has_prefix (const char *str, const char *prefix)
-{
-  return strncmp (str, prefix, strlen (prefix)) == 0;
-}
-
 static char
 ascii_toupper (char c)
 {
@@ -404,8 +398,8 @@ is_true (const char *str)
     str++;
   
   if (*str == '1' ||
-      has_prefix (str, "True") ||
-      has_prefix (str, "true"))
+      g_str_has_prefix (str, "True") ||
+      g_str_has_prefix (str, "true"))
     return 1;
   return 0;
 }
@@ -439,12 +433,12 @@ load_config (char *path)
 
       remove_trailing_whitespace (p);
       
-      if (has_prefix (p, "enabled="))
+      if (g_str_has_prefix (p, "enabled="))
 	{
 	  p += strlen ("enabled=");
 	  enabled = is_true (p);
 	}
-      if (has_prefix (p, "filename_encoding="))
+      if (g_str_has_prefix (p, "filename_encoding="))
 	{
 	  p += strlen ("filename_encoding=");
 
@@ -591,7 +585,7 @@ load_user_dirs (void)
       if (*p == '#')
 	continue;
 
-      if (!has_prefix(p, "XDG_"))
+      if (!g_str_has_prefix(p, "XDG_"))
 	continue;
       p += 4;
       key = p;
@@ -604,7 +598,7 @@ load_user_dirs (void)
 
       key_end = p - 4;
       if (key_end <= key ||
-	  !has_prefix (key_end, "_DIR"))
+	  !g_str_has_prefix (key_end, "_DIR"))
 	continue;
 
       if (*p == '=')
@@ -617,7 +611,7 @@ load_user_dirs (void)
 	continue;
 	
 
-      if (has_prefix (p, "$HOME"))
+      if (g_str_has_prefix (p, "$HOME"))
 	{
 	  p += 5;
 	  if (*p == '/')
@@ -1048,7 +1042,7 @@ main (int argc, char *argv[])
       home = g_get_home_dir ();
 
       path = set_value;
-      if (has_prefix (path, home))
+      if (g_str_has_prefix (path, home))
 	{
 	  path += strlen (home);
 	  while (*path == '/')
