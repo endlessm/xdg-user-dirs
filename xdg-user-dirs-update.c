@@ -358,14 +358,14 @@ load_default_dirs (void)
   paths = get_config_files ("user-dirs.defaults");
   if (paths[0] == NULL)
     {
-      fprintf (stderr, "No default user directories\n");
+      g_printerr ("No default user directories\n");
       exit (1);
     }
   
   file = fopen (paths[0], "r");
   if (file == NULL)
     {
-      fprintf (stderr, "Can't open %s\n", paths[0]);
+      g_printerr ("Can't open %s\n", paths[0]);
       exit (1);
     }
 
@@ -524,7 +524,7 @@ save_locale (void)
   
   if (file == NULL)
     {
-      fprintf (stderr, "Can't save user-dirs.locale\n");
+      g_printerr ("Can't save user-dirs.locale\n");
       return;
     }
 
@@ -564,11 +564,11 @@ save_user_dirs (void)
 
   if (g_mkdir_with_parents (dir, 0700) < 0)
     {
-      fprintf (stderr, "Can't save user-dirs.dirs, failed to create directory\n");
+      g_printerr ("Can't save user-dirs.dirs, failed to create directory\n");
       res = FALSE;
       goto out;
     }
-  
+
   tmp_file = g_malloc (strlen (user_config_file) + 6 + 1);
   strcpy (tmp_file, user_config_file);
   strcat (tmp_file, "XXXXXX");
@@ -576,7 +576,7 @@ save_user_dirs (void)
   tmp_fd = mkstemp (tmp_file);
   if (tmp_fd == -1)
     {
-      fprintf (stderr, "Can't save user-dirs.dirs\n");
+      g_printerr ("Can't save user-dirs.dirs\n");
       res = FALSE;
       goto out;
     }
@@ -585,7 +585,7 @@ save_user_dirs (void)
   if (file == NULL)
     {
       unlink (tmp_file);
-      fprintf (stderr, "Can't save user-dirs.dirs\n");
+      g_printerr ("Can't save user-dirs.dirs\n");
       res = FALSE;
       goto out;
     }
@@ -624,7 +624,7 @@ save_user_dirs (void)
   if (rename (tmp_file, user_config_file) == -1)
     {
       unlink (tmp_file);
-      fprintf (stderr, "Can't save user-dirs.dirs\n");
+      g_printerr ("Can't save user-dirs.dirs\n");
       res = FALSE;
     }
 
@@ -728,8 +728,8 @@ create_dirs (int force)
 	    path_name = g_build_filename (g_get_home_dir (), user_dir->path, NULL);
 	  if (!g_file_test (path_name, G_FILE_TEST_IS_DIR))
 	    {
-	      fprintf (stderr, "%s was removed, reassigning %s to homedir\n",
-		       path_name, user_dir->name);
+	      g_printerr ("%s was removed, reassigning %s to homedir\n",
+                          path_name, user_dir->name);
 	      g_free (user_dir->path);
 	      user_dir->path = g_strdup ("");
 	      user_dirs_changed = TRUE;
@@ -777,7 +777,7 @@ create_dirs (int force)
 	  if (dummy_file == NULL &&
 	      g_mkdir_with_parents (path_name, 0755) < 0)
 	    {
-	      fprintf (stderr, "Can't create dir %s\n", path_name);
+	      g_printerr ("Can't create dir %s\n", path_name);
 	    }
 	  else
 	    {
@@ -791,8 +791,8 @@ create_dirs (int force)
 	      else
 		{
 		  /* We forced an update */
-		  fprintf (stdout, "Moving %s directory from %s to %s\n",
-			   default_dir->name, user_dir->path, relative_path_name);
+		  printf ("Moving %s directory from %s to %s\n",
+                          default_dir->name, user_dir->path, relative_path_name);
 		  g_free (user_dir->path);
 		  user_dir->path = g_strdup (relative_path_name);
 		}
@@ -889,7 +889,7 @@ main (int argc, char *argv[])
       filename_converter = iconv_open (filename_encoding, "UTF-8");
       if (filename_converter == (iconv_t)(-1))
 	{
-	  fprintf (stderr, "Can't convert from UTF-8 to %s\n", filename_encoding);
+	  g_printerr ("Can't convert from UTF-8 to %s\n", filename_encoding);
 	  return 1;
 	}
     }
