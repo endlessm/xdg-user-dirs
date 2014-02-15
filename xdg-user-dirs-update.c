@@ -548,7 +548,6 @@ save_user_dirs (void)
   char *user_config_file;
   char *tmp_file;
   int i;
-  char *escaped;
   int tmp_fd;
   int res;
   char *dir, *slash;
@@ -606,10 +605,18 @@ save_user_dirs (void)
     {
       for (i = 0; user_dirs[i].name != NULL; i++)
 	{
+          char *escaped;
+          const char *relative_prefix;
+
 	  escaped = shell_escape (user_dirs[i].path);
+          if (g_path_is_absolute (escaped))
+            relative_prefix = "";
+          else
+            relative_prefix = "$HOME/";
+
 	  fprintf (file, "XDG_%s_DIR=\"%s%s\"\n",
 		   user_dirs[i].name,
-		   (*escaped == '/')?"":"$HOME/",
+                   relative_prefix,
 		   escaped);
 	  free (escaped);
 	}
@@ -719,7 +726,7 @@ create_dirs (int force)
 
       if (user_dir && !force)
 	{
-	  if (user_dir->path[0] == '/')
+	  if (g_path_is_absolute (user_dir->path))
 	    path_name = strdup (user_dir->path);
 	  else
 	    path_name = g_build_filename (g_get_home_dir (), user_dir->path, NULL);
@@ -762,7 +769,7 @@ create_dirs (int force)
 	  if (relative_path_name == NULL)
 	    relative_path_name = strdup (translated_name);
 	  free (translated_name);
-	  if (relative_path_name[0] == '/')
+	  if (g_path_is_absolute (relative_path_name))
 	    path_name = strdup (relative_path_name); /* default path was absolute, not homedir relative */
 	  else
 	    path_name = g_build_filename (g_get_home_dir (), relative_path_name, NULL);
@@ -867,8 +874,8 @@ main (int argc, char *argv[])
 	  set_dir = argv[++i];
 	  set_value = argv[++i];
 
-	  if (*set_value != '/')
-	    {
+          if (!g_path_is_absolute (set_value))
+            {
 	      printf ("directory value must be absolute path (was %s)\n", set_value);
 	      exit (1);
 	    }
