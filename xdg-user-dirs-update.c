@@ -30,11 +30,11 @@ Directory backwards_compat_dirs[] = {
 
 static Directory *default_dirs = NULL;
 static Directory *user_dirs = NULL;
-static int user_dirs_changed = 0;
+static gboolean user_dirs_changed = FALSE;
 
 /* Config: */
 
-static int enabled = 1;
+static gboolean enabled = TRUE;
 static char *filename_encoding = NULL; /* NULL => utf8 */
 
 /* Args */
@@ -160,15 +160,15 @@ static char *
 get_user_config_file (const char *filename)
 {
   char *config_home, *file;
-  int free_config_home;
+  gboolean free_config_home;
 
   config_home = getenv ("XDG_CONFIG_HOME");
 
-  free_config_home = 0;
+  free_config_home = FALSE;
   if (config_home == NULL || config_home[0] == 0)
     {
       config_home = g_build_filename (g_get_home_dir (), ".config", NULL);
-      free_config_home = 1;
+      free_config_home = TRUE;
     }
   
   file = g_build_filename (config_home, filename, NULL);
@@ -252,7 +252,7 @@ add_directory (Directory *dirs, Directory *dir)
   return new_dirs;
 }
 
-static int
+static gboolean
 is_true (const char *str)
 {
   while (g_ascii_isspace (*str))
@@ -261,8 +261,8 @@ is_true (const char *str)
   if (*str == '1' ||
       g_str_has_prefix (str, "True") ||
       g_str_has_prefix (str, "true"))
-    return 1;
-  return 0;
+    return TRUE;
+  return FALSE;
 }
 
 static void
@@ -538,7 +538,7 @@ save_locale (void)
   fclose (file);
 }
 
-static int
+static gboolean
 save_user_dirs (void)
 {
   FILE *file;
@@ -546,10 +546,10 @@ save_user_dirs (void)
   char *tmp_file;
   int i;
   int tmp_fd;
-  int res;
+  gboolean res;
   char *dir, *slash;
 
-  res = 1;
+  res = TRUE;
 
   tmp_file = NULL;
   if (dummy_file)
@@ -565,7 +565,7 @@ save_user_dirs (void)
   if (g_mkdir_with_parents (dir, 0700) < 0)
     {
       fprintf (stderr, "Can't save user-dirs.dirs, failed to create directory\n");
-      res = 0;
+      res = FALSE;
       goto out;
     }
   
@@ -577,7 +577,7 @@ save_user_dirs (void)
   if (tmp_fd == -1)
     {
       fprintf (stderr, "Can't save user-dirs.dirs\n");
-      res = 0;
+      res = FALSE;
       goto out;
     }
   
@@ -586,7 +586,7 @@ save_user_dirs (void)
     {
       unlink (tmp_file);
       fprintf (stderr, "Can't save user-dirs.dirs\n");
-      res = 0;
+      res = FALSE;
       goto out;
     }
 
@@ -625,7 +625,7 @@ save_user_dirs (void)
     {
       unlink (tmp_file);
       fprintf (stderr, "Can't save user-dirs.dirs\n");
-      res = 0;
+      res = FALSE;
     }
 
  out:
@@ -643,17 +643,17 @@ localize_path_name (const char *path)
   const char *element, *element_end;
   char *element_copy;
   char *translated;
-  int has_slash;
+  gboolean has_slash;
 
   res = g_strdup ("");
 
   while (*path)
     {
-      has_slash = 0;
+      has_slash = FALSE;
       while (*path == '/')
 	{
 	  path++;
-	  has_slash = 1;
+	  has_slash = TRUE;
 	}
 
       element = path;
@@ -732,7 +732,7 @@ create_dirs (int force)
 		       path_name, user_dir->name);
 	      g_free (user_dir->path);
 	      user_dir->path = g_strdup ("");
-	      user_dirs_changed = 1;
+	      user_dirs_changed = TRUE;
 	    }
 	  g_free (path_name);
 	  continue;
@@ -781,7 +781,7 @@ create_dirs (int force)
 	    }
 	  else
 	    {
-	      user_dirs_changed = 1;
+	      user_dirs_changed = TRUE;
 	      if (user_dir == NULL)
 		{
 		  dir.name = g_strdup (default_dir->name);
@@ -807,9 +807,9 @@ create_dirs (int force)
 int
 main (int argc, char *argv[])
 {
-  int force;
   int i;
-  int was_empty;
+  gboolean force;
+  gboolean was_empty;
   char *set_dir = NULL;
   char *set_value = NULL;
   char *locale_dir = NULL;
@@ -853,7 +853,7 @@ main (int argc, char *argv[])
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   textdomain (GETTEXT_PACKAGE);
 
-  force = 0;
+  force = FALSE;
   for (i = 1; i < argc; i++)
     {
       if (strcmp (argv[i], "--help") == 0)
@@ -862,7 +862,7 @@ main (int argc, char *argv[])
 	  exit (0);
 	}
       else if (strcmp (argv[i], "--force") == 0)
-	force = 1;
+	force = TRUE;
       else if (strcmp (argv[i], "--dummy-output") == 0 && i + 1 < argc)
 	dummy_file = argv[++i];
       else if (strcmp (argv[i], "--set") == 0 && i + 2 < argc)
