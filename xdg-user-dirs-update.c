@@ -199,18 +199,6 @@ get_user_config_file (const char *filename)
   return file;
 }
 
-static void
-freev (char **strs)
-{
-  int i;
-  if (strs)
-    {
-      for (i = 0; strs[i] != NULL; i++)
-	free (strs[i]);
-      free (strs);
-    }
-}
-
 static char **
 get_config_files (char *filename)
 {
@@ -376,7 +364,7 @@ load_all_configs (void)
   while (--i >= 0)
     load_config (paths[i]);
   
-  freev (paths);
+  g_strfreev (paths);
 }
 
 static void
@@ -445,7 +433,7 @@ load_default_dirs (void)
     }
 
   fclose (file);
-  freev (paths);
+  g_strfreev (paths);
 }
 
 static void
