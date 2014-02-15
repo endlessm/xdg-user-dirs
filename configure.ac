@@ -77,6 +77,10 @@ if test x$enable_documentation = xyes; then
 fi
 AM_CONDITIONAL(BUILD_DOCUMENTATION, test x$enable_documentation = xyes)
 
+PKG_CHECK_MODULES(GLIB, glib-2.0)
+AC_SUBST(GLIB_CFLAGS)
+AC_SUBST(GLIB_LIBS)
+
 AC_OUTPUT([ po/Makefile.in
 Makefile
 man/Makefile

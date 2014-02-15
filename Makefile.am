@@ -11,6 +11,7 @@ INCLUDES =					\
 	-DXDGCONFDIR=\"$(sysconfdir)/xdg\"	\
 	-DLOCALEDIR=\"$(datadir)/locale\" 	\
 	-DSTANDALONE_XDG_USER_DIR_LOOKUP	\
+	$(GLIB_CFLAGS)				\
 	$(NULL)
 
 EXTRA_DIST= config.rpath translate.c autogen.sh \
@@ -22,7 +23,10 @@ xdg_DATA=user-dirs.conf user-dirs.defaults
 xdgautostartdir=$(xdgdir)/autostart
 xdgautostart_DATA = xdg-user-dirs.desktop
 
-libraries = $(LIBINTL)
+libraries = 		\
+	$(LIBINTL)		\
+	$(GLIB_LIBS)	\
+	$(NULL)
 
 bin_PROGRAMS =					\
 	xdg-user-dirs-update			\
