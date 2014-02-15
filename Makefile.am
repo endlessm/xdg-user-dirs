@@ -11,6 +11,7 @@ INCLUDES =					\
 	-DXDGCONFDIR=\"$(sysconfdir)/xdg\"	\
 	-DLOCALEDIR=\"$(datadir)/locale\" 	\
 	-DSTANDALONE_XDG_USER_DIR_LOOKUP	\
+	$(GLIB_CFLAGS)				\
 	$(NULL)
 
 EXTRA_DIST= config.rpath translate.c autogen.sh \
@@ -19,7 +20,10 @@ EXTRA_DIST= config.rpath translate.c autogen.sh \
 xdgdir=$(sysconfdir)/xdg
 xdg_DATA=user-dirs.conf user-dirs.defaults
 
-libraries = $(LIBINTL)
+libraries = 		\
+	$(LIBINTL) 	\
+	$(GLIB_LIBS)	\
+	$(NULL)
 
 bin_PROGRAMS =					\
 	xdg-user-dirs-update			\
