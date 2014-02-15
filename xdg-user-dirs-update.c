@@ -212,45 +212,6 @@ freev (char **strs)
 }
 
 static char **
-parse_colon_separated_dirs (const char *dirs)
-{
-  int numfiles;
-  char **paths;
-  const char *p;
-
-  numfiles = 0;
-  paths = malloc (sizeof (char *));
-  paths[0] = NULL;
-
-  p = dirs;
-  while (p != NULL && *p != 0)
-    {
-      int len;
-      const char *path;
-      char *colon;
-
-      path = p;
-      colon = strchr (path, ':');
-      if (colon)
-	{
-	  len = colon - p;
-	  p = colon + 1;
-	}
-      else
-	{
-	  len = strlen (p);
-	  p = NULL;
-	}
-
-      paths = realloc (paths, sizeof (char *) * (numfiles + 2));
-      paths[numfiles++] = strndup (path, len);
-      paths[numfiles] = NULL;
-    }
-
-  return paths;
-}
-
-static char **
 get_config_files (char *filename)
 {
   int i;
@@ -278,9 +239,9 @@ get_config_files (char *filename)
 
   config_dirs = getenv ("XDG_CONFIG_DIRS");
   if (config_dirs)
-    config_paths = parse_colon_separated_dirs (config_dirs);
+    config_paths = g_strsplit (config_dirs, ":", -1);
   else
-    config_paths = parse_colon_separated_dirs (XDGCONFDIR);
+    config_paths = g_strsplit (XDGCONFDIR, ":", -1);
 
   for (i = 0; config_paths[i] != NULL; i++)
     {
@@ -897,7 +858,7 @@ main (int argc, char *argv[])
 	{
 	  char **data_paths;
 
-	  data_paths = parse_colon_separated_dirs (data_dirs);
+	  data_paths = g_strsplit (data_dirs, ":", -1);
 	  for (i = 0; data_paths[i] != NULL; i++)
 	    {
 	      if (!locale_dir)
