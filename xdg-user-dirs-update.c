@@ -15,6 +15,7 @@
 #include <errno.h>
 #include <iconv.h>
 #include <langinfo.h>
+#include <glib.h>
 
 typedef struct {
   char *name;
@@ -41,29 +42,6 @@ static char *filename_encoding = NULL; /* NULL => utf8 */
 static char *dummy_file = NULL;
 
 static iconv_t filename_converter = (iconv_t)(-1);
-
-static char *
-concat_strings (const char *first, ...)
-{
-  char *res;
-  const char *next;
-  va_list va;
-  int len;
-
-  res = strdup (first);
-  len = strlen (res) + 1;
-  
-  va_start (va, first);
-  while ( (next = va_arg(va, const char *)) != NULL)
-    {
-      res = realloc (res, len + strlen (next) + 1);
-      strcat (res, next);
-    }
-  
-  va_end(va);
-
-  return res;
-}
 
 static char *
 strdup_end (const char *start, const char *end)
@@ -304,11 +282,11 @@ get_user_config_file (const char *filename)
   free_config_home = 0;
   if (config_home == NULL || config_home[0] == 0)
     {
-      config_home = concat_strings (get_home_dir (), "/.config", NULL);
+      config_home = g_build_filename (get_home_dir (), ".config", NULL);
       free_config_home = 1;
     }
   
-  file = concat_strings (config_home, "/", filename, NULL);
+  file = g_build_filename (config_home, filename, NULL);
   
   if (free_config_home)
     free (config_home);
@@ -401,7 +379,7 @@ get_config_files (char *filename)
 
   for (i = 0; config_paths[i] != NULL; i++)
     {
-      file = concat_strings (config_paths[i], "/", filename, NULL);
+      file = g_build_filename (config_paths[i], filename, NULL);
       if (is_regular_file (file))
 	{
 	  paths = realloc (paths, sizeof (char *) * (numfiles + 2));
@@ -911,7 +889,7 @@ create_dirs (int force)
 	  if (user_dir->path[0] == '/')
 	    path_name = strdup (user_dir->path);
 	  else
-	    path_name = concat_strings (get_home_dir (), "/", user_dir->path, NULL);
+	    path_name = g_build_filename (get_home_dir (), user_dir->path, NULL);
 	  if (!is_directory (path_name))
 	    {
 	      fprintf (stderr, "%s was removed, reassigning %s to homedir\n",
@@ -933,7 +911,7 @@ create_dirs (int force)
 	  compat_dir = lookup_backwards_compat (default_dir);
 	  if (compat_dir)
 	    {
-	      path_name = concat_strings (get_home_dir (), "/", compat_dir->path, NULL);
+	      path_name = g_build_filename (get_home_dir (), compat_dir->path, NULL);
 	      if (!is_directory (path_name))
 		{
 		  free (path_name);
@@ -954,7 +932,7 @@ create_dirs (int force)
 	  if (relative_path_name[0] == '/')
 	    path_name = strdup (relative_path_name); /* default path was absolute, not homedir relative */
 	  else
-	    path_name = concat_strings (get_home_dir (), "/", relative_path_name, NULL);
+	    path_name = g_build_filename (get_home_dir (), relative_path_name, NULL);
 	}
 	      
       if (user_dir == NULL || strcmp (relative_path_name, user_dir->path) != 0)
@@ -1021,7 +999,7 @@ main (int argc, char *argv[])
 	      if (!locale_dir)
 		{
 		  char *dir = NULL;
-		  dir = concat_strings (data_paths[i], "/", "locale", NULL);
+		  dir = g_build_filename (data_paths[i], "locale", NULL);
 		  if (is_directory (dir))
 		    locale_dir = dir;
 		  else
