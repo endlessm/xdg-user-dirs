@@ -756,26 +756,19 @@ main (int argc, char *argv[])
        * a different location than the one determined at compile time, look
        * through the XDG_DATA_DIRS environment variable for alternate locations
        * of the locale files */
-      char *data_dirs = getenv ("XDG_DATA_DIRS");
-      if (data_dirs)
-	{
-	  char **data_paths;
+      const char * const * data_paths;
+      data_paths = g_get_system_data_dirs ();
+      for (i = 0; data_paths[i] != NULL; i++)
+        {
+          char *dir = NULL;
+          dir = g_build_filename (data_paths[i], "locale", NULL);
+          if (g_file_test (dir, G_FILE_TEST_IS_DIR))
+            {
+              locale_dir = dir;
+              break;
+            }
 
-	  data_paths = g_strsplit (data_dirs, ":", -1);
-	  for (i = 0; data_paths[i] != NULL; i++)
-	    {
-	      if (!locale_dir)
-		{
-		  char *dir = NULL;
-		  dir = g_build_filename (data_paths[i], "locale", NULL);
-		  if (g_file_test (dir, G_FILE_TEST_IS_DIR))
-		    locale_dir = dir;
-		  else
-		    g_free (dir);
-		}
-	      g_free (data_paths[i]);
-	    }
-	  g_free (data_paths);
+          g_free (dir);
 	}
     }
 
