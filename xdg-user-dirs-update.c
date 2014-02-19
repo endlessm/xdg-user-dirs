@@ -488,7 +488,7 @@ save_user_dirs (void)
   Directory *user_dir;
   int tmp_fd;
   gboolean res;
-  char *dir, *slash;
+  char *dir;
 
   res = TRUE;
 
@@ -498,11 +498,7 @@ save_user_dirs (void)
   else
     user_config_file = get_user_config_file ("user-dirs.dirs");
 
-  dir = g_strdup (user_config_file);
-  slash = strrchr (dir, '/');
-  if (slash)
-    *slash = 0;
-
+  dir = g_path_get_dirname (user_config_file);  
   if (g_mkdir_with_parents (dir, 0700) < 0)
     {
       g_printerr ("Can't save user-dirs.dirs, failed to create directory\n");
