@@ -167,9 +167,8 @@ static GList *
 get_config_files (char *filename)
 {
   int i;
-  char *config_dirs;
   char *file;
-  char **config_paths;
+  const char * const *config_paths;
   GList *paths;
 
   paths = NULL;
@@ -183,12 +182,7 @@ get_config_files (char *filename)
 	g_free (file);
     }
 
-  config_dirs = getenv ("XDG_CONFIG_DIRS");
-  if (config_dirs)
-    config_paths = g_strsplit (config_dirs, ":", -1);
-  else
-    config_paths = g_strsplit (XDGCONFDIR, ":", -1);
-
+  config_paths = g_get_system_config_dirs ();
   for (i = 0; config_paths[i] != NULL; i++)
     {
       file = g_build_filename (config_paths[i], filename, NULL);
@@ -196,11 +190,8 @@ get_config_files (char *filename)
         paths = g_list_prepend (paths, file);
       else
 	g_free (file);
-      g_free (config_paths[i]);
     }
   
-  g_free (config_paths);
-
   return g_list_reverse (paths);
 }
 
