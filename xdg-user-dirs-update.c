@@ -506,10 +506,7 @@ save_user_dirs (void)
       goto out;
     }
 
-  tmp_file = g_malloc (strlen (user_config_file) + 6 + 1);
-  strcpy (tmp_file, user_config_file);
-  strcat (tmp_file, "XXXXXX");
-  
+  tmp_file = g_strconcat (user_config_file, "XXXXXX", NULL);  
   tmp_fd = mkstemp (tmp_file);
   if (tmp_fd == -1)
     {
