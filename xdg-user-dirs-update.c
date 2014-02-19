@@ -158,24 +158,9 @@ filename_from_utf8 (const char *utf8_path)
 static char *
 get_user_config_file (const char *filename)
 {
-  char *config_home, *file;
-  gboolean free_config_home;
-
-  config_home = getenv ("XDG_CONFIG_HOME");
-
-  free_config_home = FALSE;
-  if (config_home == NULL || config_home[0] == 0)
-    {
-      config_home = g_build_filename (g_get_home_dir (), ".config", NULL);
-      free_config_home = TRUE;
-    }
-  
-  file = g_build_filename (config_home, filename, NULL);
-  
-  if (free_config_home)
-    g_free (config_home);
-
-  return file;
+  const gchar *config_home;
+  config_home = g_get_user_config_dir ();
+  return g_build_filename (config_home, filename, NULL);
 }
 
 static GList *
