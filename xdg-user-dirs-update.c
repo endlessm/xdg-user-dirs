@@ -32,16 +32,16 @@ static GList *default_dirs = NULL;
 static GList *user_dirs = NULL;
 
 /* Config: */
-static gboolean enabled = TRUE;
-static char *filename_encoding = NULL; /* NULL => utf8 */
+static gboolean conf_enabled = TRUE;
+static char *conf_filename_encoding = NULL; /* NULL => utf8 */
+
+static iconv_t filename_converter = (iconv_t)(-1);
 
 /* Args */
 static char *arg_dummy_file = NULL;
 static char *arg_set_dir = NULL;
 static char *arg_set_value = NULL;
 static gboolean arg_force = FALSE;
-
-static iconv_t filename_converter = (iconv_t)(-1);
 
 static Directory *
 directory_new (const char *name, const char *path)
@@ -242,7 +242,7 @@ load_config (char *path)
       if (g_str_has_prefix (p, "enabled="))
 	{
 	  p += strlen ("enabled=");
-	  enabled = is_true (p);
+	  conf_enabled = is_true (p);
 	}
       if (g_str_has_prefix (p, "filename_encoding="))
 	{
@@ -253,15 +253,15 @@ load_config (char *path)
 
           remove_trailing_whitespace (p);  
           encoding = g_ascii_strup (p, -1);
-          g_free (filename_encoding);
-	  
+          g_free (conf_filename_encoding);
+  
 	  if (strcmp (encoding, "UTF8") == 0 ||
 	      strcmp (encoding, "UTF-8") == 0)
-	    filename_encoding = NULL;
+	    conf_filename_encoding = NULL;
 	  else if (strcmp (encoding, "LOCALE") == 0)
-	    filename_encoding = g_strdup (nl_langinfo (CODESET));
+	    conf_filename_encoding = g_strdup (nl_langinfo (CODESET));
 	  else
-	    filename_encoding = g_strdup (encoding);
+	    conf_filename_encoding = g_strdup (encoding);
 
           g_free (encoding);
 	}
@@ -270,7 +270,7 @@ load_config (char *path)
   fclose (file);
 }
 
-static void
+static gboolean
 load_all_configs (void)
 {
   GList *paths, *l;
@@ -283,6 +283,18 @@ load_all_configs (void)
 
   g_list_foreach (paths, (GFunc) g_free, NULL);
   g_list_free (paths);
+
+  if (conf_filename_encoding)
+    {
+      filename_converter = iconv_open (conf_filename_encoding, "UTF-8");
+      if (filename_converter == (iconv_t)(-1))
+	{
+	  g_printerr ("Can't convert from UTF-8 to %s\n", conf_filename_encoding);
+	  return FALSE;
+	}
+    }
+
+  return TRUE;
 }
 
 static void
@@ -845,16 +857,8 @@ main (int argc, char *argv[])
 
   parse_argv (argc, argv);
 
-  load_all_configs ();
-  if (filename_encoding)
-    {
-      filename_converter = iconv_open (filename_encoding, "UTF-8");
-      if (filename_converter == (iconv_t)(-1))
-	{
-	  g_printerr ("Can't convert from UTF-8 to %s\n", filename_encoding);
-	  return 1;
-	}
-    }
+  if (!load_all_configs ())
+    return 1;
 
   load_user_dirs ();
 
@@ -862,9 +866,9 @@ main (int argc, char *argv[])
     return !set_one_directory (arg_set_dir, arg_set_value);
 
   /* default: update */
-  if (!enabled)
+  if (!conf_enabled)
     return 0;
-      
+
   load_default_dirs ();
       
   was_empty = (user_dirs == NULL);
