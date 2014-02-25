@@ -297,6 +297,26 @@ load_all_configs (void)
   return TRUE;
 }
 
+/* modifies the input string */
+static char *
+user_dirs_key_from_string (char *string,
+                           int len)
+{
+  if (len < 0)
+    len = strlen (string);
+
+  string[len] = '\0';
+
+  if (g_str_has_prefix (string, "XDG_") &&
+      g_str_has_suffix (string, "_DIR"))
+    {
+      string[len - 4] = '\0';
+      return string + 4;
+    }
+
+  return NULL;
+}
+
 static gboolean
 load_default_dirs (void)
 {
@@ -420,26 +440,22 @@ load_user_dirs (void)
       if (*p == '#')
 	continue;
 
-      if (!g_str_has_prefix (p, "XDG_"))
-	continue;
-
-      p += 4;
       key = p;
-         
       while (*p && !g_ascii_isspace (*p) && * p != '=')
 	p++;
 
       if (*p == 0)
 	continue;
 
-      key_end = p - 4;
-      if (key_end <= key ||
-	  !g_str_has_prefix (key_end, "_DIR"))
-	continue;
+      key_end = p++;
+      key = user_dirs_key_from_string (key, key_end - key);
+      if (key == NULL)
+        continue;
 
+      while (g_ascii_isspace (*p))
+        p++;
       if (*p == '=')
 	p++;
-
       while (g_ascii_isspace (*p))
 	p++;
 
@@ -467,13 +483,9 @@ load_user_dirs (void)
 
 	  p++;
 	}
+
       value_end = p;
-
-      *key_end = 0;
       *value_end = 0;
-
-      if (*key == 0)
-	continue;
 
       unescaped = shell_unescape (value);
       dir = directory_new (key, unescaped);
