@@ -35,12 +35,12 @@ bin_SCRIPTS =					\
 xdg_user_dirs_update_SOURCES = xdg-user-dirs-update.c
 xdg_user_dirs_update_LDADD = $(libraries)
 
+noinst_PROGRAMS= 		\
+	xdg-user-dir-lookup	\
+	$(NULL)
 
-noinst_PROGRAMS= \
-	xdg-user-dir-lookup
-
-xdg_user_dir_lookup_SOURCES = \
-	xdg-user-dir-lookup.c
+xdg_user_dir_lookup_SOURCES = xdg-user-dir-lookup.c
+xdg_user_dir_lookup_LDADD = $(libraries)
 
 dist-hook: check-translations
 	@if test -d "$(srcdir)/.git"; \
