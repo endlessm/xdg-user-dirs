@@ -33,12 +33,14 @@ static GList *user_dirs = NULL;
 static gboolean user_dirs_changed = FALSE;
 
 /* Config: */
-
 static gboolean enabled = TRUE;
 static char *filename_encoding = NULL; /* NULL => utf8 */
 
 /* Args */
 static char *dummy_file = NULL;
+static char *set_dir = NULL;
+static char *set_value = NULL;
+static gboolean force = FALSE;
 
 static iconv_t filename_converter = (iconv_t)(-1);
 
@@ -729,14 +731,46 @@ create_dirs (int force)
     }
 }
 
+static gboolean
+set_one_directory (void)
+{
+  Directory *dir;
+  char *path;
+  const gchar *home;
+  /* Set a key */
+
+  home = g_get_home_dir ();
+
+  path = set_value;
+  if (g_str_has_prefix (path, home))
+    {
+      path += strlen (home);
+      while (*path == '/')
+        path++;
+    }
+
+  dir = find_dir (user_dirs, set_dir);
+  if (dir != NULL)
+    {
+      g_free (dir->path);
+      dir->path = g_strdup (path);
+    }
+  else
+    {
+      Directory *new_dir;
+
+      new_dir = directory_new (set_dir, path);
+      user_dirs = g_list_append (user_dirs, new_dir);
+    }
+
+  return save_user_dirs ();
+}
+
 int
 main (int argc, char *argv[])
 {
   int i;
-  gboolean force;
   gboolean was_empty;
-  char *set_dir = NULL;
-  char *set_value = NULL;
   char *locale_dir = NULL;
   
   setlocale (LC_ALL, "");
@@ -812,64 +846,29 @@ main (int argc, char *argv[])
 	}
     }
 
+  load_user_dirs ();
+
   if (set_dir != NULL)
-    {
-      Directory *dir;
-      char *path;
-      const gchar *home;
-      /* Set a key */
+    return !set_one_directory ();
 
-      load_user_dirs ();
-
-      home = g_get_home_dir ();
-
-      path = set_value;
-      if (g_str_has_prefix (path, home))
-	{
-	  path += strlen (home);
-	  while (*path == '/')
-	    path++;
-	}
+  /* default: update */
+  if (!enabled)
+    return 0;
       
-      dir = find_dir (user_dirs, set_dir);
-      if (dir != NULL)
-	{
-	  g_free (dir->path);
-	  dir->path = g_strdup (path);
-	}
-      else
-	{
-	  Directory *new_dir;
-
-          new_dir = directory_new (set_dir, path);
-	  user_dirs = g_list_append (user_dirs, new_dir);
-	}
+  load_default_dirs ();
+      
+  was_empty = (user_dirs == NULL);
+      
+  create_dirs (force);
+      
+  if (user_dirs_changed)
+    {
       if (!save_user_dirs ())
-	return 1;
-    }
-  else
-    {
-      
-      /* default: update */
-      if (!enabled)
-	return 0;
-      
-      load_default_dirs ();
-      load_user_dirs ();
-      
-      was_empty = (user_dirs == NULL);
-      
-      create_dirs (force);
-      
-      if (user_dirs_changed)
-	{
-	  if (!save_user_dirs ())
-	    return 1;
+        return 1;
 	  
-	  if ((force || was_empty) && dummy_file == NULL)
-	    save_locale ();
-	}
-
+      if ((force || was_empty) && dummy_file == NULL)
+        save_locale ();
     }
+
   return 0;
 }
