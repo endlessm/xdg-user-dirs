@@ -15,6 +15,7 @@
 #include <iconv.h>
 #include <langinfo.h>
 #include <glib.h>
+#include <glib/gstdio.h>
 
 typedef struct {
   char *name;
@@ -42,6 +43,7 @@ static char *arg_dummy_file = NULL;
 static char *arg_set_dir = NULL;
 static char *arg_set_value = NULL;
 static gboolean arg_force = FALSE;
+static gboolean arg_move = FALSE;
 
 static Directory *
 directory_new (const char *name, const char *path)
@@ -376,10 +378,7 @@ get_dir_for_desktop_file (char *desktop_file_path)
   if (!parent_name)
     goto out;
 
-  parent_dir = find_dir (user_dirs, parent_name);
-  if (!parent_dir)
-    parent_dir = find_dir (default_dirs, parent_name);
-
+  parent_dir = find_dir (default_dirs, parent_name);
   if (!parent_dir)
     goto out;
 
@@ -884,15 +883,64 @@ get_translated_path_name (Directory *default_dir,
   return path_name;
 }
 
+static void
+update_user_dirs_path (const char *old_path,
+                       const char *new_path)
+{
+  GList *l;
+  Directory *user_dir;
+  const char *p;
+  char *new_full_path;
+
+  for (l = user_dirs; l != NULL; l = l->next)
+    {
+      user_dir = l->data;
+      if (!g_str_has_prefix (user_dir->path, old_path))
+        continue;
+
+      p = user_dir->path + strlen (old_path);
+      new_full_path = g_build_filename (new_path, p, NULL);
+      g_free (user_dir->path);
+      user_dir->path = new_full_path;
+    }
+}
+
+static int
+default_dirs_compare (gconstpointer a,
+                      gconstpointer b)
+{
+  Directory *dir_a = (Directory *) a;
+  Directory *dir_b = (Directory *) b;
+
+  /* The second directory is first's parent,
+   * so sort it before.
+   */
+  if (g_str_has_prefix (dir_a->path, dir_b->path))
+    return 1;
+
+  /* The first directory is second's parent,
+   * so sort it before.
+   */
+  if (g_str_has_prefix (dir_b->path, dir_a->path))
+    return -1;
+
+  return g_utf8_collate (dir_a->path, dir_b->path);
+}
+
 static gboolean
 create_default_dirs (gboolean force, gboolean for_dummy_file)
 {
-  GList *l;
+  GList *sorted_dirs, *l;
   Directory *user_dir, *default_dir;
-  char *path_name, *relative_path_name;
+  char *old_relative_path_name, *path_name, *relative_path_name;
   gboolean user_dirs_changed = FALSE;
 
-  for (l = default_dirs; l != NULL; l = l->next)
+  /* Sort directories so that parent dirs come first than their children.
+   * This makes it easier to move subdirectories - see comment below.
+   */
+  sorted_dirs = g_list_sort (default_dirs, default_dirs_compare);
+
+  for (l = sorted_dirs; l != NULL; l = l->next)
     {
       default_dir = l->data;
       user_dir = find_dir (user_dirs, default_dir->name);
@@ -907,6 +955,7 @@ create_default_dirs (gboolean force, gboolean for_dummy_file)
           continue;
         }
 
+      old_relative_path_name = NULL;
       path_name = NULL;
       relative_path_name = NULL;
 
@@ -924,16 +973,33 @@ create_default_dirs (gboolean force, gboolean for_dummy_file)
           path_name = get_translated_path_name (default_dir, &relative_path_name);
         }
 
-      if (user_dir == NULL || strcmp (relative_path_name, user_dir->path) != 0)
+      if (user_dir != NULL)
+        old_relative_path_name = g_strdup (user_dir->path);
+
+      if (g_strcmp0 (relative_path_name, old_relative_path_name) != 0)
         {
           gint res = 0;
 
-	  /* Don't make the directories if we're writing a dummy output file */
+	  /* Don't touch directories if we're writing a dummy output file */
           if (!for_dummy_file)
-            res = g_mkdir_with_parents (path_name, 0755);
-
-          if (res < 0)
             {
+              res = g_mkdir_with_parents (path_name, 0755);
+              if (res >= 0 && arg_move && (old_relative_path_name != NULL))
+                {
+                  char *old_path_name;
+
+                  old_path_name = make_path_absolute (old_relative_path_name);
+                  if (g_file_test (old_path_name, G_FILE_TEST_EXISTS))
+                    {
+                      res = g_rename (old_path_name, path_name);
+                      g_free (old_path_name);
+                    }
+                }
+            }
+
+          if (res < 0 && errno != EEXIST && errno != ENOTEMPTY)
+            {
+              g_free (old_relative_path_name);
               g_free (relative_path_name);
               g_free (path_name);
               continue;
@@ -951,15 +1017,24 @@ create_default_dirs (gboolean force, gboolean for_dummy_file)
             {
               /* We forced an update */
               printf ("Moving %s directory from %s to %s\n",
-                      default_dir->name, user_dir->path, relative_path_name);
+                      default_dir->name, old_relative_path_name, relative_path_name);
               g_free (user_dir->path);
               user_dir->path = g_strdup (relative_path_name);
             }
+
+          /* Now update all the other paths that contain the old
+           * path to the one we just renamed to
+           */
+          if (old_relative_path_name != NULL)
+            update_user_dirs_path (old_relative_path_name, relative_path_name);
         }
 
+      g_free (old_relative_path_name);
       g_free (relative_path_name);
       g_free (path_name);
     }
+
+  g_list_free (sorted_dirs);
 
   return user_dirs_changed;
 }
@@ -1013,6 +1088,8 @@ parse_argv (int argc, char *argv[])
         }
       else if (strcmp (argv[i], "--force") == 0)
         arg_force = TRUE;
+      else if (strcmp (argv[i], "--move") == 0)
+        arg_move = TRUE;
       else if (strcmp (argv[i], "--dummy-output") == 0 && i + 1 < argc)
         arg_dummy_file = argv[++i];
       else if (strcmp (argv[i], "--set") == 0 && i + 2 < argc)

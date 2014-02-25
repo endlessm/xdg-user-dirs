@@ -76,6 +76,12 @@ locale.</para>
     </para></listitem>
   </varlistentry>
   <varlistentry>
+    <term><option>--move</option></term>
+    <listitem><para>Move the old directories with their content automatically to the new location
+    on update, instead of creating an empty directory at the new location.
+    </para></listitem>
+  </varlistentry>
+  <varlistentry>
     <term><option>--dummy-output <replaceable>PATH</replaceable></option></term>
     <listitem><para>Write the configuration to <replaceable>PATH</replaceable>
     instead of the default configuration file. Also, no directories are created.</para></listitem>
