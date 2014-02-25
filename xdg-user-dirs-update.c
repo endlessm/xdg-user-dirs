@@ -37,10 +37,10 @@ static gboolean enabled = TRUE;
 static char *filename_encoding = NULL; /* NULL => utf8 */
 
 /* Args */
-static char *dummy_file = NULL;
-static char *set_dir = NULL;
-static char *set_value = NULL;
-static gboolean force = FALSE;
+static char *arg_dummy_file = NULL;
+static char *arg_set_dir = NULL;
+static char *arg_set_value = NULL;
+static gboolean arg_force = FALSE;
 
 static iconv_t filename_converter = (iconv_t)(-1);
 
@@ -481,7 +481,7 @@ save_locale (void)
 }
 
 static gboolean
-save_user_dirs (void)
+save_user_dirs (const char *dummy_file)
 {
   FILE *file;
   char *user_config_file;
@@ -637,7 +637,7 @@ lookup_backwards_compat (Directory *dir)
 }
 
 static void
-create_dirs (int force)
+create_dirs (gboolean force, gboolean for_dummy_file)
 {
   GList *l;
   Directory *dir, *user_dir, *default_dir, *compat_dir;
@@ -702,7 +702,7 @@ create_dirs (int force)
       if (user_dir == NULL || strcmp (relative_path_name, user_dir->path) != 0)
 	{
 	  /* Don't make the directories if we're writing a dummy output file */
-	  if (dummy_file == NULL &&
+	  if (!for_dummy_file &&
 	      g_mkdir_with_parents (path_name, 0755) < 0)
 	    {
 	      g_printerr ("Can't create dir %s\n", path_name);
@@ -732,7 +732,7 @@ create_dirs (int force)
 }
 
 static gboolean
-set_one_directory (void)
+set_one_directory (const char *set_dir, const char *set_value)
 {
   Directory *dir;
   char *path;
@@ -741,7 +741,7 @@ set_one_directory (void)
 
   home = g_get_home_dir ();
 
-  path = set_value;
+  path = (char *) set_value;
   if (g_str_has_prefix (path, home))
     {
       path += strlen (home);
@@ -763,13 +763,47 @@ set_one_directory (void)
       user_dirs = g_list_append (user_dirs, new_dir);
     }
 
-  return save_user_dirs ();
+  return save_user_dirs (arg_dummy_file);
+}
+
+static void
+parse_argv (int argc, char *argv[])
+{
+  int i;
+
+  for (i = 1; i < argc; i++)
+    {
+      if (strcmp (argv[i], "--help") == 0)
+        {
+          printf ("Usage: xdg-user-dirs-update [--force] [--move] [--dummy-output <path>] [--set DIR path]\n");
+          exit (0);
+        }
+      else if (strcmp (argv[i], "--force") == 0)
+        arg_force = TRUE;
+      else if (strcmp (argv[i], "--dummy-output") == 0 && i + 1 < argc)
+        arg_dummy_file = argv[++i];
+      else if (strcmp (argv[i], "--set") == 0 && i + 2 < argc)
+        {
+          arg_set_dir = argv[++i];
+          arg_set_value = argv[++i];
+
+          if (!g_path_is_absolute (arg_set_value))
+            {
+              printf ("directory value must be absolute path (was %s)\n", arg_set_value);
+              exit (1);
+            }
+        }
+      else
+        {
+          printf ("Invalid argument %s\n", argv[i]);
+          exit (1);
+        }
+    }
 }
 
 int
 main (int argc, char *argv[])
 {
-  int i;
   gboolean was_empty;
   char *locale_dir = NULL;
   
@@ -784,6 +818,8 @@ main (int argc, char *argv[])
        * through the XDG_DATA_DIRS environment variable for alternate locations
        * of the locale files */
       const char * const * data_paths;
+      int i;
+
       data_paths = g_get_system_data_dirs ();
       for (i = 0; data_paths[i] != NULL; i++)
         {
@@ -805,36 +841,8 @@ main (int argc, char *argv[])
   bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
   textdomain (GETTEXT_PACKAGE);
 
-  force = FALSE;
-  for (i = 1; i < argc; i++)
-    {
-      if (strcmp (argv[i], "--help") == 0)
-	{
-	  printf ("Usage: xdg-user-dirs-update [--force] [--dummy-output <path>] [--set DIR path]\n");
-	  exit (0);
-	}
-      else if (strcmp (argv[i], "--force") == 0)
-	force = TRUE;
-      else if (strcmp (argv[i], "--dummy-output") == 0 && i + 1 < argc)
-	dummy_file = argv[++i];
-      else if (strcmp (argv[i], "--set") == 0 && i + 2 < argc)
-	{
-	  set_dir = argv[++i];
-	  set_value = argv[++i];
+  parse_argv (argc, argv);
 
-          if (!g_path_is_absolute (set_value))
-            {
-	      printf ("directory value must be absolute path (was %s)\n", set_value);
-	      exit (1);
-	    }
-	}
-      else
-	{
-	  printf ("Invalid argument %s\n", argv[i]);
-	  exit (1);
-	}
-    }
-  
   load_all_configs ();
   if (filename_encoding)
     {
@@ -848,8 +856,8 @@ main (int argc, char *argv[])
 
   load_user_dirs ();
 
-  if (set_dir != NULL)
-    return !set_one_directory ();
+  if (arg_set_dir != NULL)
+    return !set_one_directory (arg_set_dir, arg_set_value);
 
   /* default: update */
   if (!enabled)
@@ -859,14 +867,13 @@ main (int argc, char *argv[])
       
   was_empty = (user_dirs == NULL);
       
-  create_dirs (force);
-      
+  create_dirs (arg_force, (arg_dummy_file != NULL));
   if (user_dirs_changed)
     {
-      if (!save_user_dirs ())
+      if (!save_user_dirs (arg_dummy_file))
         return 1;
 	  
-      if ((force || was_empty) && dummy_file == NULL)
+      if ((arg_force || was_empty) && arg_dummy_file == NULL)
         save_locale ();
     }
 
