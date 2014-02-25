@@ -297,6 +297,20 @@ load_all_configs (void)
   return TRUE;
 }
 
+static int
+compare_dir_name (const Directory *dir, const char *name)
+{
+  return strcmp (dir->name, name);
+}
+
+static Directory *
+find_dir (GList *dirs, const char *name)
+{
+  GList *l;
+  l = g_list_find_custom (dirs, name, (GCompareFunc) compare_dir_name);
+  return (l != NULL) ? l->data : NULL;
+}
+
 /* modifies the input string */
 static char *
 user_dirs_key_from_string (char *string,
@@ -307,6 +321,9 @@ user_dirs_key_from_string (char *string,
 
   string[len] = '\0';
 
+  if (g_str_has_suffix (string, ".desktop"))
+    return string;
+
   if (g_str_has_prefix (string, "XDG_") &&
       g_str_has_suffix (string, "_DIR"))
     {
@@ -315,6 +332,132 @@ user_dirs_key_from_string (char *string,
     }
 
   return NULL;
+}
+
+static char *
+user_dirs_key_to_string (char *key)
+{
+  if (g_str_has_suffix (key, ".desktop"))
+    return g_strdup (key);
+
+  return g_strdup_printf ("XDG_%s_DIR", key);
+}
+
+static Directory *
+get_dir_for_desktop_file (char *desktop_file_path)
+{
+  GKeyFile *keyfile;
+  char *special_dir_path;
+  Directory *retval;
+  char *desktop_id;
+  char *parent_name, *parent_val;
+  Directory *parent_dir;
+  char *translated_name;
+  gboolean res;
+
+  keyfile = g_key_file_new ();
+  desktop_id = g_path_get_basename (desktop_file_path);
+  special_dir_path = NULL;
+
+  res = g_key_file_load_from_file (keyfile, desktop_file_path,
+                                   G_KEY_FILE_NONE,
+                                   NULL);
+  if (!res)
+    goto out;
+
+  parent_val = g_key_file_get_string (keyfile,
+                                      G_KEY_FILE_DESKTOP_TYPE_DIRECTORY,
+                                      "Parent",
+                                      NULL);
+  if (!parent_val)
+    goto out;
+
+  parent_name = user_dirs_key_from_string (parent_val, -1);
+  if (!parent_name)
+    goto out;
+
+  parent_dir = find_dir (user_dirs, parent_name);
+  if (!parent_dir)
+    parent_dir = find_dir (default_dirs, parent_name);
+
+  if (!parent_dir)
+    goto out;
+
+  translated_name = g_key_file_get_locale_string (keyfile,
+                                                  G_KEY_FILE_DESKTOP_TYPE_DIRECTORY,
+                                                  G_KEY_FILE_DESKTOP_KEY_NAME,
+                                                  NULL, NULL);
+  if (!translated_name)
+    goto out;
+
+  special_dir_path = g_build_filename (parent_dir->path, translated_name, NULL);
+  g_key_file_free (keyfile);
+
+ out:
+  if (special_dir_path != NULL)
+    retval = directory_new (desktop_id, special_dir_path);
+  else
+    retval = NULL;
+
+  g_free (desktop_id);
+  g_free (special_dir_path);
+  return retval;
+}
+
+static GList *
+load_default_application_dirs (void)
+{
+  const char * const * data_paths;
+  GList *app_dirs = NULL;
+  int idx;
+
+  data_paths = g_get_system_data_dirs ();
+
+  for (idx = 0; data_paths[idx] != NULL; idx++)
+    {
+      char *path;
+      GDir *dir;
+      const gchar *basename;
+
+      path = g_build_filename (data_paths[idx], "xdg-user-dirs", NULL);
+      if (!g_file_test (path, G_FILE_TEST_IS_DIR))
+        {
+          g_free (path);
+          continue;
+        }
+
+      dir = g_dir_open (path, 0, NULL);
+      if (!dir)
+        {
+          g_free (path);
+          continue;
+        }
+
+      while ((basename = g_dir_read_name (dir)) != NULL)
+        {
+          Directory *new_dir;
+          char *desktop_file_path;
+
+          if (!g_str_has_suffix (basename, ".desktop"))
+            continue;
+
+          if (find_dir (app_dirs, basename))
+            continue;
+
+          desktop_file_path = g_build_filename (path, basename, NULL);
+          new_dir = get_dir_for_desktop_file (desktop_file_path);
+
+          if (new_dir != NULL)
+            app_dirs = g_list_prepend (app_dirs, new_dir);
+
+          g_free (desktop_file_path);
+        }
+      
+      g_free (path);
+      g_dir_close (dir);
+    }
+
+  return app_dirs;
 }
 
 static gboolean
@@ -382,28 +525,16 @@ load_default_dirs (void)
       default_dirs = g_list_prepend (default_dirs, dir);
     }
 
-  default_dirs = g_list_reverse (default_dirs);
   g_strfreev (lines);
 
  out:
   g_list_foreach (paths, (GFunc) g_free, NULL);
   g_list_free (paths);
 
+  /* now load default application-provided dirs */
+  default_dirs = g_list_concat (default_dirs, load_default_application_dirs ());
+  
   return res;
-}
-
-static int
-compare_dir_name (const Directory *dir, const char *name)
-{
-  return strcmp (dir->name, name);
-}
-
-static Directory *
-find_dir (GList *dirs, const char *name)
-{
-  GList *l;
-  l = g_list_find_custom (dirs, name, (GCompareFunc) compare_dir_name);
-  return (l != NULL) ? l->data : NULL;
 }
 
 static void
@@ -567,29 +698,35 @@ save_user_dirs (const char *dummy_file)
   fprintf (file, "# This file is written by xdg-user-dirs-update\n");
   fprintf (file, "# If you want to change or add directories, just edit the line you're\n");
   fprintf (file, "# interested in. All local changes will be retained on the next run\n");
-  fprintf (file, "# Format is XDG_xxx_DIR=\"$HOME/yyy\", where yyy is a shell-escaped\n");
+  fprintf (file, "# Format for general directories is XDG_xxx_DIR=\"$HOME/yyy\", where yyy is a shell-escaped\n");
   fprintf (file, "# homedir-relative path, or XDG_xxx_DIR=\"/yyy\", where /yyy is an\n");
-  fprintf (file, "# absolute path. No other format is supported.\n");
+  fprintf (file, "# absolute path.\n");
+  fprintf (file, "# Format for desktop-file speficic directories is\n");
+  fprintf (file, "# xxx.desktop=\"yyy\" where xxx.desktop is a valid directory\"\n");
+  fprintf (file, "# keyfile in $XDG_DATA_DIRS/xdg-user-dirs.\n");
+  fprintf (file, "# No other format is supported.\n");
   fprintf (file, "# \n");
 
   for (l = user_dirs; l != NULL; l = l->next)
     {
-      char *escaped;
+      char *escaped, *name;
       const char *relative_prefix;
 
       user_dir = l->data;
 
+      name = user_dirs_key_to_string (user_dir->name);
       escaped = shell_escape (user_dir->path);
       if (g_path_is_absolute (escaped))
         relative_prefix = "";
       else
         relative_prefix = "$HOME/";
 
-      fprintf (file, "XDG_%s_DIR=\"%s%s\"\n",
-               user_dir->name,
+      fprintf (file, "%s=\"%s%s\"\n",
+               name,
                relative_prefix,
                escaped);
       g_free (escaped);
+      g_free (name);
     }
 
   fclose (file);
