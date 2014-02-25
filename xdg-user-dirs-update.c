@@ -372,6 +372,20 @@ load_default_dirs (void)
   return res;
 }
 
+static int
+compare_dir_name (const Directory *dir, const char *name)
+{
+  return strcmp (dir->name, name);
+}
+
+static Directory *
+find_dir (GList *dirs, const char *name)
+{
+  GList *l;
+  l = g_list_find_custom (dirs, name, (GCompareFunc) compare_dir_name);
+  return (l != NULL) ? l->data : NULL;
+}
+
 static void
 load_user_dirs (void)
 {
@@ -622,38 +636,108 @@ localize_path_name (const char *path)
   return res;
 }
 
-static int
-compare_dir_name (const Directory *dir, const char *name)
+static gboolean
+validate_user_dir_path (Directory *user_dir)
 {
-  return strcmp (dir->name, name);
-}
+  char *path_name;
+  gboolean path_valid = TRUE;
 
-static Directory *
-find_dir (GList *dirs, const char *name)
-{
-  GList *l;
-  l = g_list_find_custom (dirs, name, (GCompareFunc) compare_dir_name);
-  return (l != NULL) ? l->data : NULL;
-}
+  if (g_path_is_absolute (user_dir->path))
+    path_name = g_strdup (user_dir->path);
+  else
+    path_name = g_build_filename (g_get_home_dir (), user_dir->path, NULL);
 
-static Directory *
-lookup_backwards_compat (Directory *dir)
-{
-  int i;
-  for (i = 0; backwards_compat_dirs[i].name != NULL; i++)
+  /* If the path doesn't exist, reset it to an empty value.
+   * By spec, it will be treated as the home directory itself.
+   */
+  if (!g_file_test (path_name, G_FILE_TEST_IS_DIR))
     {
-      if (compare_dir_name (dir, backwards_compat_dirs[i].name) == 0)
-	return &backwards_compat_dirs[i];
+      g_printerr ("%s was removed, reassigning %s to homedir\n",
+                  path_name, user_dir->name);
+      g_free (user_dir->path);
+      user_dir->path = g_strdup ("");
+      path_valid = FALSE;
     }
-  return NULL;
+ 
+  g_free (path_name);
+  return path_valid;
+}
+
+static char *
+get_backwards_compat_path (Directory *default_dir,
+                           char **relative_path_name_out)
+{
+  Directory *compat_dir;
+  char *path_name, *relative_path_name;
+  int idx;
+
+  path_name = NULL;
+  relative_path_name = NULL;
+  compat_dir = NULL;
+
+  for (idx = 0; backwards_compat_dirs[idx].name != NULL; idx++)
+    {
+      if (compare_dir_name (default_dir, backwards_compat_dirs[idx].name) == 0)
+        {
+          compat_dir = &backwards_compat_dirs[idx];
+          break;
+        }
+    }
+
+  if (compat_dir)
+    {
+      path_name = g_build_filename (g_get_home_dir (), compat_dir->path, NULL);
+      if (g_file_test (path_name, G_FILE_TEST_IS_DIR))
+        {
+          relative_path_name = g_strdup (compat_dir->path);
+        }
+      else
+        {
+          g_free (path_name);
+          path_name = NULL;
+        }
+    }
+
+  if (relative_path_name_out != NULL)
+    *relative_path_name_out = relative_path_name;
+  else
+    g_free (relative_path_name);
+
+  return path_name;
+}
+
+static char *
+get_translated_path_name (Directory *default_dir,
+                          char **relative_path_name_out)
+{
+  char *path_name, *relative_path_name, *translated_name;
+
+  translated_name = localize_path_name (default_dir->path);
+  relative_path_name = filename_from_utf8 (translated_name);
+
+  if (relative_path_name == NULL)
+    relative_path_name = g_strdup (translated_name);
+  g_free (translated_name);
+
+  if (g_path_is_absolute (relative_path_name))
+    path_name = g_strdup (relative_path_name);
+  else
+    path_name = g_build_filename (g_get_home_dir (), relative_path_name, NULL);
+
+  if (relative_path_name_out != NULL)
+    *relative_path_name_out = relative_path_name;
+  else
+    g_free (relative_path_name);
+
+  return path_name;
 }
 
 static gboolean
-create_dirs (gboolean force, gboolean for_dummy_file)
+create_default_dirs (gboolean force, gboolean for_dummy_file)
 {
   GList *l;
-  Directory *dir, *user_dir, *default_dir, *compat_dir;
-  char *path_name, *relative_path_name, *translated_name;
+  Directory *user_dir, *default_dir;
+  char *path_name, *relative_path_name;
   gboolean user_dirs_changed = FALSE;
 
   for (l = default_dirs; l != NULL; l = l->next)
@@ -661,84 +745,66 @@ create_dirs (gboolean force, gboolean for_dummy_file)
       default_dir = l->data;
       user_dir = find_dir (user_dirs, default_dir->name);
 
-      if (user_dir && !force)
-	{
-	  if (g_path_is_absolute (user_dir->path))
-	    path_name = g_strdup (user_dir->path);
-	  else
-	    path_name = g_build_filename (g_get_home_dir (), user_dir->path, NULL);
-	  if (!g_file_test (path_name, G_FILE_TEST_IS_DIR))
-	    {
-	      g_printerr ("%s was removed, reassigning %s to homedir\n",
-                          path_name, user_dir->name);
-	      g_free (user_dir->path);
-	      user_dir->path = g_strdup ("");
-	      user_dirs_changed = TRUE;
-	    }
-	  g_free (path_name);
-	  continue;
-	}
+      if (user_dir != NULL && !force)
+        {
+          /* If we found an user dir for this default dir,
+           * don't re-create it, but make sure to validate its
+           * path first.
+           */
+          user_dirs_changed |= !validate_user_dir_path (user_dir);
+          continue;
+        }
 
       path_name = NULL;
       relative_path_name = NULL;
+
       if (user_dir == NULL && !force)
-	{
-	  /* New default dir. Check if its an old named dir. We want to
-	     reuse that if it exists. */
-	  compat_dir = lookup_backwards_compat (default_dir);
-	  if (compat_dir)
-	    {
-	      path_name = g_build_filename (g_get_home_dir (), compat_dir->path, NULL);
-	      if (!g_file_test (path_name, G_FILE_TEST_IS_DIR))
-		{
-		  g_free (path_name);
-		  path_name = NULL;
-		}
-	      else
-		relative_path_name = g_strdup (compat_dir->path);
-	    }
-	}
+        {
+          /* New default dir. Check if its an old named dir. We want to
+           * reuse that if it exists.
+           */
+          path_name = get_backwards_compat_path (default_dir, &relative_path_name);
+        }
 
       if (path_name == NULL)
-	{
-	  translated_name = localize_path_name (default_dir->path);
-	  relative_path_name = filename_from_utf8 (translated_name);
-	  if (relative_path_name == NULL)
-	    relative_path_name = g_strdup (translated_name);
-	  g_free (translated_name);
-	  if (g_path_is_absolute (relative_path_name))
-	    path_name = g_strdup (relative_path_name); /* default path was absolute, not homedir relative */
-	  else
-	    path_name = g_build_filename (g_get_home_dir (), relative_path_name, NULL);
-	}
-	      
+        {
+          /* Get the default translated path name for this dir */
+          path_name = get_translated_path_name (default_dir, &relative_path_name);
+        }
+
       if (user_dir == NULL || strcmp (relative_path_name, user_dir->path) != 0)
-	{
+        {
+          gint res = 0;
+
 	  /* Don't make the directories if we're writing a dummy output file */
-	  if (!for_dummy_file &&
-	      g_mkdir_with_parents (path_name, 0755) < 0)
-	    {
-	      g_printerr ("Can't create dir %s\n", path_name);
-	    }
-	  else
-	    {
-	      user_dirs_changed = TRUE;
-	      if (user_dir == NULL)
-		{
-                  dir = directory_new (default_dir->name, relative_path_name);
-		  user_dirs = g_list_append (user_dirs, dir);
-		}
-	      else
-		{
-		  /* We forced an update */
-		  printf ("Moving %s directory from %s to %s\n",
-                          default_dir->name, user_dir->path, relative_path_name);
-		  g_free (user_dir->path);
-		  user_dir->path = g_strdup (relative_path_name);
-		}
-	    }
-	}
-      
+          if (!for_dummy_file)
+            res = g_mkdir_with_parents (path_name, 0755);
+
+          if (res < 0)
+            {
+              g_free (relative_path_name);
+              g_free (path_name);
+              continue;
+            }
+
+          user_dirs_changed = TRUE;
+          if (user_dir == NULL)
+            {
+              /* This is a new directory altogether */
+              printf ("Creating new directory %s for %s\n", default_dir->name, relative_path_name);
+              user_dir = directory_new (default_dir->name, relative_path_name);
+              user_dirs = g_list_append (user_dirs, user_dir);
+            }
+          else
+            {
+              /* We forced an update */
+              printf ("Moving %s directory from %s to %s\n",
+                      default_dir->name, user_dir->path, relative_path_name);
+              g_free (user_dir->path);
+              user_dir->path = g_strdup (relative_path_name);
+            }
+        }
+
       g_free (relative_path_name);
       g_free (path_name);
     }
@@ -882,7 +948,7 @@ main (int argc, char *argv[])
     return 1;
       
   was_empty = (user_dirs == NULL);
-  user_dirs_changed = create_dirs (arg_force, (arg_dummy_file != NULL));
+  user_dirs_changed = create_default_dirs (arg_force, (arg_dummy_file != NULL));
 
   if (user_dirs_changed)
     {
