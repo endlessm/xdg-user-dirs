@@ -30,6 +30,28 @@
 #include <string.h>
 #include <glib.h>
 
+static char *
+user_dirs_key_from_string (char *string,
+                           int len)
+{
+  if (len < 0)
+    len = strlen (string);
+
+  string[len] = '\0';
+
+  if (g_str_has_suffix (string, ".desktop"))
+    return string;
+
+  if (g_str_has_prefix (string, "XDG_") &&
+      g_str_has_suffix (string, "_DIR"))
+    {
+      string[len - 4] = '\0';
+      return string + 4;
+    }
+
+  return NULL;
+}
+
 /**
  * xdg_user_dir_lookup_with_fallback:
  * @type: a string specifying the type of directory
@@ -53,6 +75,7 @@ xdg_user_dir_lookup_with_fallback (const char *type, const char *fallback)
   char *config_file;
   char *buffer;
   char *user_dir;
+  char *key, *key_end;
   char *value, *value_end;
   char *p;
   char **lines;
@@ -81,24 +104,19 @@ xdg_user_dir_lookup_with_fallback (const char *type, const char *fallback)
       p = lines[idx];
       while (g_ascii_isspace (*p))
 	p++;
-      
-      if (!g_str_has_prefix (p, "XDG_"))
-	continue;
-      p += 4;
-      if (strncmp (p, type, strlen (type)) != 0)
-	continue;
-      p += strlen (type);
-      if (!g_str_has_prefix (p, "_DIR"))
-	continue;
-      p += 4;
 
-      while (g_ascii_isspace (*p))
+      key = p;
+      while (*p && !g_ascii_isspace (*p) && * p != '=')
 	p++;
 
-      if (*p != '=')
+      if (*p == 0)
 	continue;
-      p++;
-      
+
+      key_end = p++;
+      key = user_dirs_key_from_string (key, key_end - key);
+      if (g_strcmp0 (key, type) != 0)
+        continue;
+
       while (g_ascii_isspace (*p))
 	p++;
 
