@@ -93,7 +93,10 @@ locale.</para>
         <member>MUSIC</member>
         <member>PICTURES</member>
         <member>VIDEOS</member>
-      </simplelist></para>
+      </simplelist>
+      Or the basename of a desktop file describing an XDG custom directory
+      installed in <envvar>XDG_DATA_DIRS</envvar>.
+    </para>
    <para><replaceable>PATH</replaceable> must be an absolute path,
    e.g. <filename>$HOME/Some/Directory</filename>.</para></listitem>
    </varlistentry>
@@ -109,6 +112,8 @@ locale.</para>
 <refsect1><title>Environment</title>
   <para>The <envar>XDG_CONFIG_HOME</envar> environment variable determines
   where the <filename>user-dirs.dirs</filename> file is located.</para>
+  <para>The <envar>XDG_DATA_DIRS</envar> environment variable determines
+  where desktop files for custom directories are located.</para>
 </refsect1>
 
 <refsect1><title>See Also</title>
