@@ -30,7 +30,6 @@ Directory backwards_compat_dirs[] = {
 
 static GList *default_dirs = NULL;
 static GList *user_dirs = NULL;
-static gboolean user_dirs_changed = FALSE;
 
 /* Config: */
 static gboolean enabled = TRUE;
@@ -636,12 +635,13 @@ lookup_backwards_compat (Directory *dir)
   return NULL;
 }
 
-static void
+static gboolean
 create_dirs (gboolean force, gboolean for_dummy_file)
 {
   GList *l;
   Directory *dir, *user_dir, *default_dir, *compat_dir;
   char *path_name, *relative_path_name, *translated_name;
+  gboolean user_dirs_changed = FALSE;
 
   for (l = default_dirs; l != NULL; l = l->next)
     {
@@ -729,6 +729,8 @@ create_dirs (gboolean force, gboolean for_dummy_file)
       g_free (relative_path_name);
       g_free (path_name);
     }
+
+  return user_dirs_changed;
 }
 
 static gboolean
@@ -804,7 +806,7 @@ parse_argv (int argc, char *argv[])
 int
 main (int argc, char *argv[])
 {
-  gboolean was_empty;
+  gboolean was_empty, user_dirs_changed;
   char *locale_dir = NULL;
   
   setlocale (LC_ALL, "");
@@ -866,8 +868,8 @@ main (int argc, char *argv[])
   load_default_dirs ();
       
   was_empty = (user_dirs == NULL);
-      
-  create_dirs (arg_force, (arg_dummy_file != NULL));
+  user_dirs_changed = create_dirs (arg_force, (arg_dummy_file != NULL));
+
   if (user_dirs_changed)
     {
       if (!save_user_dirs (arg_dummy_file))
