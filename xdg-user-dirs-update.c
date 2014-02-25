@@ -297,7 +297,7 @@ load_all_configs (void)
   return TRUE;
 }
 
-static void
+static gboolean
 load_default_dirs (void)
 {
   FILE *file;
@@ -307,19 +307,21 @@ load_default_dirs (void)
   int len;
   Directory *dir;
   GList *paths;
-  
+  gboolean res;
+
+  res = FALSE;
   paths = get_config_files ("user-dirs.defaults");
   if (paths == NULL)
     {
       g_printerr ("No default user directories\n");
-      exit (1);
+      goto out;
     }
   
   file = fopen (paths->data, "r");
   if (file == NULL)
     {
       g_printerr ("Can't open %s\n", (char *) paths->data);
-      exit (1);
+      goto out;
     }
 
   while (fgets (buffer, sizeof (buffer), file))
@@ -362,10 +364,13 @@ load_default_dirs (void)
     }
 
   default_dirs = g_list_reverse (default_dirs);
-
   fclose (file);
+
+ out:
   g_list_foreach (paths, (GFunc) g_free, NULL);
   g_list_free (paths);
+
+  return res;
 }
 
 static void
@@ -877,7 +882,8 @@ main (int argc, char *argv[])
   if (!conf_enabled)
     return 0;
 
-  load_default_dirs ();
+  if (!load_default_dirs ())
+    return 1;
       
   was_empty = (user_dirs == NULL);
   user_dirs_changed = create_dirs (arg_force, (arg_dummy_file != NULL));
