@@ -212,33 +212,33 @@ is_true (const char *str)
 static void
 load_config (char *path)
 {
-  FILE *file;
-  char buffer[512];
-  char *p;
+  char *buffer, *p;
   char *encoding;
-  int len;
+  char **lines;
+  int idx;
+  gboolean res;
 
-  file = fopen (path, "r");
-  if (file == NULL)
+  res = g_file_get_contents (path, &buffer, NULL, NULL);
+  if (!res)
     return;
 
-  while (fgets (buffer, sizeof (buffer), file))
+  lines = g_strsplit (buffer, "\n", -1);
+  g_free (buffer);
+
+  for (idx = 0; lines[idx] != NULL; idx++)
     {
-      /* Remove newline at end */
-      len = strlen (buffer);
-      if (len > 0 && buffer[len-1] == '\n')
-	buffer[len-1] = 0;
-      
-      p = buffer;
+      p = lines[idx];
+
       /* Skip whitespace */
       while (g_ascii_isspace (*p))
 	p++;
-      
+
+      /* Skip comment lines */      
       if (*p == '#')
 	continue;
 
       remove_trailing_whitespace (p);
-      
+
       if (g_str_has_prefix (p, "enabled="))
 	{
 	  p += strlen ("enabled=");
@@ -267,7 +267,7 @@ load_config (char *path)
 	}
     }
 
-  fclose (file);
+  g_strfreev (lines);
 }
 
 static gboolean
@@ -300,11 +300,10 @@ load_all_configs (void)
 static gboolean
 load_default_dirs (void)
 {
-  FILE *file;
-  char buffer[512];
-  char *p;
+  char *buffer, *p;
   char *key, *key_end, *value;
-  int len;
+  char **lines;
+  int idx;
   Directory *dir;
   GList *paths;
   gboolean res;
@@ -316,26 +315,26 @@ load_default_dirs (void)
       g_printerr ("No default user directories\n");
       goto out;
     }
-  
-  file = fopen (paths->data, "r");
-  if (file == NULL)
+
+  res = g_file_get_contents (paths->data, &buffer, NULL, NULL);  
+  if (!res)
     {
       g_printerr ("Can't open %s\n", (char *) paths->data);
       goto out;
     }
 
-  while (fgets (buffer, sizeof (buffer), file))
+  lines = g_strsplit (buffer, "\n", -1);
+  g_free (buffer);
+
+  for (idx = 0; lines[idx] != NULL; idx++)
     {
-      /* Remove newline at end */
-      len = strlen (buffer);
-      if (len > 0 && buffer[len-1] == '\n')
-	buffer[len-1] = 0;
-      
-      p = buffer;
+      p = lines[idx];
+
       /* Skip whitespace */
       while (g_ascii_isspace (*p))
 	p++;
-      
+
+      /* Skip comment lines */
       if (*p == '#')
 	continue;
 
@@ -364,7 +363,7 @@ load_default_dirs (void)
     }
 
   default_dirs = g_list_reverse (default_dirs);
-  fclose (file);
+  g_strfreev (lines);
 
  out:
   g_list_foreach (paths, (GFunc) g_free, NULL);
@@ -376,31 +375,29 @@ load_default_dirs (void)
 static void
 load_user_dirs (void)
 {
-  FILE *file;
-  char buffer[512];
-  char *p;
+  char *buffer, *p;
   char *key, *key_end, *value, *value_end;
   char *unescaped;
-  int len;
+  char **lines;
+  int idx;
   Directory *dir;
   char *user_config_file;
+  gboolean res;
 
   user_config_file = get_user_config_file ("user-dirs.dirs");
-  
-  file = fopen (user_config_file, "r");
+  res = g_file_get_contents (user_config_file, &buffer, NULL, NULL);
   g_free (user_config_file);
-  
-  if (file == NULL)
+
+  if (!res)
     return;
 
-  while (fgets (buffer, sizeof (buffer), file))
+  lines = g_strsplit (buffer, "\n", -1);
+  g_free (buffer);
+
+  for (idx = 0; lines[idx] != NULL; idx++)
     {
-      /* Remove newline at end */
-      len = strlen (buffer);
-      if (len > 0 && buffer[len-1] == '\n')
-	buffer[len-1] = 0;
-      
-      p = buffer;
+      p = lines[idx];
+
       /* Skip whitespace */
       while (g_ascii_isspace (*p))
 	p++;
@@ -409,8 +406,9 @@ load_user_dirs (void)
       if (*p == '#')
 	continue;
 
-      if (!g_str_has_prefix(p, "XDG_"))
+      if (!g_str_has_prefix (p, "XDG_"))
 	continue;
+
       p += 4;
       key = p;
          
@@ -432,8 +430,7 @@ load_user_dirs (void)
 	p++;
 
       if (*p++ != '"')
-	continue;
-	
+	continue;	
 
       if (g_str_has_prefix (p, "$HOME"))
 	{
@@ -467,12 +464,11 @@ load_user_dirs (void)
       unescaped = shell_unescape (value);
       dir = directory_new (key, unescaped);
       user_dirs = g_list_prepend (user_dirs, dir);
-      g_free (unescaped);
+      g_free (unescaped);      
     }
 
   user_dirs = g_list_reverse (user_dirs);
-
-  fclose (file);
+  g_strfreev (lines);
 }
 
 static void
