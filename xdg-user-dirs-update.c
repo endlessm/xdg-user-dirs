@@ -785,16 +785,22 @@ localize_path_name (const char *path)
   return res;
 }
 
+static char *
+make_path_absolute (const char *path)
+{
+  if (g_path_is_absolute (path))
+    return g_strdup (path);
+  else
+    return g_build_filename (g_get_home_dir (), path, NULL);
+}
+
 static gboolean
 validate_user_dir_path (Directory *user_dir)
 {
   char *path_name;
   gboolean path_valid = TRUE;
 
-  if (g_path_is_absolute (user_dir->path))
-    path_name = g_strdup (user_dir->path);
-  else
-    path_name = g_build_filename (g_get_home_dir (), user_dir->path, NULL);
+  path_name = make_path_absolute (user_dir->path);
 
   /* If the path doesn't exist, reset it to an empty value.
    * By spec, it will be treated as the home directory itself.
@@ -868,10 +874,7 @@ get_translated_path_name (Directory *default_dir,
     relative_path_name = g_strdup (translated_name);
   g_free (translated_name);
 
-  if (g_path_is_absolute (relative_path_name))
-    path_name = g_strdup (relative_path_name);
-  else
-    path_name = g_build_filename (g_get_home_dir (), relative_path_name, NULL);
+  path_name = make_path_absolute (relative_path_name);
 
   if (relative_path_name_out != NULL)
     *relative_path_name_out = relative_path_name;
