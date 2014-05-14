@@ -2,15 +2,18 @@
 #
 # The values are relative pathnames from the home directory and
 # will be translated on a per-path-element basis into the users locale
-DESKTOP=Desktop
-DOWNLOAD=Downloads
-TEMPLATES=Templates
-PUBLICSHARE=Public
 DOCUMENTS=Documents
+DOWNLOAD=Downloads
 MUSIC=Music
 PICTURES=Pictures
 VIDEOS=Videos
-# Another alternative is:
-#MUSIC=Documents/Music
-#PICTURES=Documents/Pictures
-#VIDEOS=Documents/Videos
+#
+# These are not part of our default configuration
+#
+#TEMPLATES=Templates
+#PUBLICSHARE=Public
+#
+# Desktop is not either, but the spec hardcodes it to
+# $HOME/Desktop when it's missing. We set it to the home directory
+# itself in order to disable it.
+DESKTOP=.
