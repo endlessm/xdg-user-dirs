@@ -122,8 +122,8 @@ msgstr "plantillas"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "Videos"
+msgstr "Vídeos"
 
 #: translate.c:15
 msgid "videos"
-msgstr "videos"
+msgstr "vídeos"
