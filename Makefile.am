@@ -9,7 +9,6 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	-I$(top_builddir)			\
 	-DLOCALEDIR=\"$(datadir)/locale\" 	\
-	-DSTANDALONE_XDG_USER_DIR_LOOKUP	\
 	$(GLIB_CFLAGS)				\
 	$(NULL)
 
@@ -26,21 +25,14 @@ libraries = 		\
 
 bin_PROGRAMS =					\
 	xdg-user-dirs-update			\
-	$(NULL)
-
-bin_SCRIPTS =					\
 	xdg-user-dir				\
 	$(NULL)
 
 xdg_user_dirs_update_SOURCES = xdg-user-dirs-update.c
 xdg_user_dirs_update_LDADD = $(libraries)
 
-noinst_PROGRAMS= 		\
-	xdg-user-dir-lookup	\
-	$(NULL)
-
-xdg_user_dir_lookup_SOURCES = xdg-user-dir-lookup.c
-xdg_user_dir_lookup_LDADD = $(libraries)
+xdg_user_dir_SOURCES = xdg-user-dir-lookup.c
+xdg_user_dir_LDADD = $(libraries)
 
 dist-hook: check-translations
 	@if test -d "$(srcdir)/.git"; \
