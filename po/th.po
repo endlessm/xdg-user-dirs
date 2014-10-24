@@ -1,23 +1,21 @@
-# Thai translation for xdg-user-dirs.
+# Thai translation of xdg-user-dirs.
 # Copyright (C) 2007 Google, Inc.
 # This file is distributed under the same license as the xdg-user-dirs package.
 # Theppitak Karoonboonyanan <thep@linux.thai.net>, 2008.
-# Sira Nokyoongtong <gumaraa@gmail.com>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: xdg-user-dirs 0.11-pre1\n"
+"Project-Id-Version: xdg-user-dirs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 10:18+0200\n"
-"PO-Revision-Date: 2010-06-19 18:57+0700\n"
-"Last-Translator: Sira Nokyoongtong <gumaraa@gmail.com>\n"
+"POT-Creation-Date: 2009-09-18 14:16+0200\n"
+"PO-Revision-Date: 2010-09-29 03:48+0000\n"
+"Last-Translator: SiraNokyoongtong <gumaraa@gmail.com>\n"
 "Language-Team: Thai <translation-team-th@lists.sourceforge.net>\n"
-"Language: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Thai\n"
-"X-Poedit-Country: THAILAND\n"
+"X-Launchpad-Export-Date: 2014-10-17 15:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: translate.c:2
 msgid "Applications"
@@ -93,11 +91,11 @@ msgstr "รูปภาพ"
 
 #: translate.c:11
 msgid "Projects"
-msgstr "โครงการ"
+msgstr "โครงงาน"
 
 #: translate.c:11
 msgid "projects"
-msgstr "โครงการ"
+msgstr "โครงงาน"
 
 #: translate.c:12
 msgid "Public"

@@ -16,6 +16,7 @@ missing
 stamp-h1
 *~
 
+po/remove-potcdate.sed
 po/stamp-po
 po/xdg-user-dirs.pot
 po/POTFILES

@@ -1,22 +1,21 @@
 # Afrikaans translation of xdg-user-dirs
 # Copyright (C) 2007 Red Hat, Inc
 # This file is distributed under the same license as the xdg-user-dirs package.
-# F Wolff <friedel@translate.org.za>, 2010.
+# Friedel Wolff <friedel BY translate.org.za>, 2007.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: xdg-user-dirs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 10:18+0200\n"
-"PO-Revision-Date: 2010-04-19 19:51+0200\n"
-"Last-Translator: F Wolff <friedel@translate.org.za>\n"
-"Language-Team: translate-discuss-af@lists.sourceforge.net\n"
-"Language: af\n"
+"POT-Creation-Date: 2009-09-18 14:16+0200\n"
+"PO-Revision-Date: 2010-04-07 14:58+0000\n"
+"Last-Translator: JC Brand <Unknown>\n"
+"Language-Team: Afrikaans <translate-discuss-af@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.5.3-rc1\n"
-"X-Language: af_ZA\n"
+"X-Launchpad-Export-Date: 2014-10-17 15:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: translate.c:2
 msgid "Applications"
@@ -44,19 +43,19 @@ msgstr "dokumente"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Afgelaai"
+msgstr "Laai af"
 
 #: translate.c:5
 msgid "download"
-msgstr "afgelaai"
+msgstr "laai af"
 
 #: translate.c:6
 msgid "Downloads"
-msgstr "Afgelaai"
+msgstr "Aflaaie"
 
 #: translate.c:6
 msgid "downloads"
-msgstr "afgelaai"
+msgstr "aflaaie"
 
 #: translate.c:7
 msgid "Movies"
@@ -108,11 +107,11 @@ msgstr "publiek"
 
 #: translate.c:13
 msgid "Share"
-msgstr "Gedeel"
+msgstr "Deel"
 
 #: translate.c:13
 msgid "share"
-msgstr "gedeel"
+msgstr "deel"
 
 #: translate.c:14
 msgid "Templates"
