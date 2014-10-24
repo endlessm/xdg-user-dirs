@@ -44,11 +44,11 @@ msgstr "dokumentuak"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Deskargak"
+msgstr "Deskarga"
 
 #: translate.c:5
 msgid "download"
-msgstr "deskargak"
+msgstr "deskarga"
 
 #: translate.c:6
 msgid "Downloads"
@@ -60,11 +60,11 @@ msgstr "deskargak"
 
 #: translate.c:7
 msgid "Movies"
-msgstr "Filmeak"
+msgstr "Filmak"
 
 #: translate.c:7
 msgid "movies"
-msgstr "filmeak"
+msgstr "filmak"
 
 #: translate.c:8
 msgid "Music"

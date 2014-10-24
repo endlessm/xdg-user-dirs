@@ -99,11 +99,11 @@ msgstr "项目"
 
 #: translate.c:12
 msgid "Public"
-msgstr "公共"
+msgstr "公共的"
 
 #: translate.c:12
 msgid "public"
-msgstr "公共"
+msgstr "公共的"
 
 #: translate.c:13
 msgid "Share"

@@ -110,11 +110,11 @@ msgstr "javno"
 
 #: translate.c:13
 msgid "Share"
-msgstr "Dijeljeno"
+msgstr "Razmjena"
 
 #: translate.c:13
 msgid "share"
-msgstr "dijeljeno"
+msgstr "razmjena"
 
 #: translate.c:14
 msgid "Templates"

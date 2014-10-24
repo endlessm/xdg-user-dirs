@@ -51,14 +51,12 @@ msgid "download"
 msgstr "íosluchtú"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
-msgstr "Íosluchtú"
+msgstr "Íosluchtuithe"
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
-msgstr "íosluchtú"
+msgstr "íosluchtuithe"
 
 #: translate.c:7
 msgid "Movies"

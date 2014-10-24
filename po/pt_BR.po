@@ -30,7 +30,7 @@ msgstr "aplicativos"
 
 #: translate.c:3
 msgid "Desktop"
-msgstr "Área de trabalho"
+msgstr "Área de Trabalho"
 
 #: translate.c:3
 msgid "desktop"

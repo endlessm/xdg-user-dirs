@@ -44,19 +44,19 @@ msgstr "dokumente"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Afgelaai"
+msgstr "Laai af"
 
 #: translate.c:5
 msgid "download"
-msgstr "afgelaai"
+msgstr "laai af"
 
 #: translate.c:6
 msgid "Downloads"
-msgstr "Afgelaai"
+msgstr "Aflaaie"
 
 #: translate.c:6
 msgid "downloads"
-msgstr "afgelaai"
+msgstr "aflaaie"
 
 #: translate.c:7
 msgid "Movies"
@@ -108,11 +108,11 @@ msgstr "publiek"
 
 #: translate.c:13
 msgid "Share"
-msgstr "Gedeel"
+msgstr "Deel"
 
 #: translate.c:13
 msgid "share"
-msgstr "gedeel"
+msgstr "deel"
 
 #: translate.c:14
 msgid "Templates"

@@ -26,11 +26,11 @@ msgstr "aplikasi"
 
 #: translate.c:3
 msgid "Desktop"
-msgstr "Destop"
+msgstr "Desktop"
 
 #: translate.c:3
 msgid "desktop"
-msgstr "destop"
+msgstr "desktop"
 
 #: translate.c:4
 msgid "Documents"

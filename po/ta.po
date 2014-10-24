@@ -19,11 +19,11 @@ msgstr ""
 
 #: translate.c:2
 msgid "Applications"
-msgstr "பயன்பாடுகள்"
+msgstr "செயலிகள்"
 
 #: translate.c:2
 msgid "applications"
-msgstr "பயன்பாடுகள்"
+msgstr "செயலிகள்"
 
 #: translate.c:3
 msgid "Desktop"
@@ -31,7 +31,7 @@ msgstr "பணிமேடை"
 
 #: translate.c:3
 msgid "desktop"
-msgstr "பணிமேடை"
+msgstr "மேல்மேசை"
 
 #: translate.c:4
 msgid "Documents"
@@ -43,11 +43,11 @@ msgstr "ஆவணங்கள்"
 
 #: translate.c:5
 msgid "Download"
-msgstr "பதிவிறக்கம்"
+msgstr "பதிவிறக்கு"
 
 #: translate.c:5
 msgid "download"
-msgstr "பதிவிறக்கம்"
+msgstr "பதிவிறக்கு"
 
 #: translate.c:6
 msgid "Downloads"
@@ -59,11 +59,11 @@ msgstr "பதிவிறக்கங்கள்"
 
 #: translate.c:7
 msgid "Movies"
-msgstr "மூவிஸ்"
+msgstr "திரைப்படங்கள்"
 
 #: translate.c:7
 msgid "movies"
-msgstr "மூவிஸ்"
+msgstr "திரைப்படங்கள்"
 
 #: translate.c:8
 msgid "Music"
@@ -103,28 +103,28 @@ msgstr "பொதுவான"
 
 #: translate.c:12
 msgid "public"
-msgstr "பொதுவான"
+msgstr "பொதுவானது"
 
 #: translate.c:13
 msgid "Share"
-msgstr "பகிர்"
+msgstr "பங்கிடு"
 
 #: translate.c:13
 msgid "share"
-msgstr "பகிர்"
+msgstr "பகிர்க"
 
 #: translate.c:14
 msgid "Templates"
-msgstr "மாதிரிஉருக்கள்"
+msgstr "வார்ப்புருக்கள்"
 
 #: translate.c:14
 msgid "templates"
-msgstr "மாதிரிஉருக்கள்"
+msgstr "வார்ப்புரு"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "வீடியோக்கள்"
+msgstr "நிகழ்படங்கள்"
 
 #: translate.c:15
 msgid "videos"
-msgstr "வீடியோக்கள்"
+msgstr "நிகழ்படங்கள்"

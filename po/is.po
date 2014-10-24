@@ -51,11 +51,11 @@ msgstr "niðurhal"
 
 #: translate.c:6
 msgid "Downloads"
-msgstr "Sóttar skrár"
+msgstr "Sótt gögn"
 
 #: translate.c:6
 msgid "downloads"
-msgstr "sóttar skrár"
+msgstr "sótt gögn"
 
 #: translate.c:7
 msgid "Movies"
@@ -99,11 +99,11 @@ msgstr "verkefni"
 
 #: translate.c:12
 msgid "Public"
-msgstr "Opið"
+msgstr "Opið öllum"
 
 #: translate.c:12
 msgid "public"
-msgstr "opið"
+msgstr "opið öllum"
 
 #: translate.c:13
 msgid "Share"
@@ -115,16 +115,16 @@ msgstr "sameign"
 
 #: translate.c:14
 msgid "Templates"
-msgstr "Sniðmát"
+msgstr "Snið"
 
 #: translate.c:14
 msgid "templates"
-msgstr "sniðmát"
+msgstr "snið"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "Vídeó"
+msgstr "Myndbönd"
 
 #: translate.c:15
 msgid "videos"
-msgstr "vídeó"
+msgstr "myndbönd"

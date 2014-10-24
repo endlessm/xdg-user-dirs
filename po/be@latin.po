@@ -50,14 +50,12 @@ msgid "download"
 msgstr "zahruzka"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
-msgstr "Zahruzka"
+msgstr ""
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
-msgstr "zahruzka"
+msgstr ""
 
 #: translate.c:7
 msgid "Movies"

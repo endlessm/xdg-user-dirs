@@ -27,11 +27,11 @@ msgstr "програми"
 
 #: translate.c:3
 msgid "Desktop"
-msgstr "Радна површ"
+msgstr "Радна површина"
 
 #: translate.c:3
 msgid "desktop"
-msgstr "радна површ"
+msgstr "радна површина"
 
 #: translate.c:4
 msgid "Documents"
@@ -43,11 +43,11 @@ msgstr "документа"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Преузето"
+msgstr "Преузимање"
 
 #: translate.c:5
 msgid "download"
-msgstr "преузето"
+msgstr "преузимање"
 
 #: translate.c:6
 msgid "Downloads"

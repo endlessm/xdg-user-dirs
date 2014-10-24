@@ -51,14 +51,12 @@ msgid "download"
 msgstr "преземања"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
-msgstr "Преземања"
+msgstr ""
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
-msgstr "преземања"
+msgstr ""
 
 #: translate.c:7
 msgid "Movies"

@@ -45,11 +45,11 @@ msgstr "dokumenti"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Prejemi"
+msgstr "Prejeto"
 
 #: translate.c:5
 msgid "download"
-msgstr "prejemi"
+msgstr "prejeto"
 
 #: translate.c:6
 msgid "Downloads"

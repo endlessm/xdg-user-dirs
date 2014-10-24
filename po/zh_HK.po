@@ -48,12 +48,10 @@ msgid "download"
 msgstr "下載"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
 msgstr "下載"
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
 msgstr "下載"
 
@@ -107,11 +105,11 @@ msgstr "公共"
 
 #: translate.c:13
 msgid "Share"
-msgstr "分享目錄"
+msgstr "共享"
 
 #: translate.c:13
 msgid "share"
-msgstr "分享目錄"
+msgstr "共享"
 
 #: translate.c:14
 msgid "Templates"

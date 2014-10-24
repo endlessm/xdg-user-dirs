@@ -75,11 +75,11 @@ msgstr "ceòl"
 
 #: translate.c:9
 msgid "Photos"
-msgstr "Dealbhan-camara"
+msgstr "Fotografaichean"
 
 #: translate.c:9
 msgid "photos"
-msgstr "dealbhan-camara"
+msgstr "fotografaichean"
 
 #: translate.c:10
 msgid "Pictures"

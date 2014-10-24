@@ -52,14 +52,12 @@ msgid "download"
 msgstr "pellgargañ"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
-msgstr "Pellgargañ"
+msgstr "Pellgargadurioù"
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
-msgstr "pellgargañ"
+msgstr "pellgargadurioù"
 
 #: translate.c:7
 msgid "Movies"
@@ -115,7 +113,7 @@ msgstr "Rannañ"
 
 #: translate.c:13
 msgid "share"
-msgstr "Rannañ"
+msgstr "rannañ"
 
 #: translate.c:14
 msgid "Templates"

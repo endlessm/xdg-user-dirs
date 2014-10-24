@@ -115,11 +115,11 @@ msgstr "공유"
 
 #: translate.c:14
 msgid "Templates"
-msgstr "서식"
+msgstr "템플릿"
 
 #: translate.c:14
 msgid "templates"
-msgstr "서식"
+msgstr "템플릿"
 
 #: translate.c:15
 msgid "Videos"

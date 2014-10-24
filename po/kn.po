@@ -50,15 +50,15 @@ msgstr "ನಕಲಿಳಿಸು"
 
 #: translate.c:5
 msgid "download"
-msgstr "ಇಳಿಸು"
+msgstr "ನಕಲಿಳಿಸು"
 
 #: translate.c:6
 msgid "Downloads"
-msgstr "ಇಳಿಕೆಗಳು"
+msgstr "ಡೌನ್‌ಲೋಡ್‌ಗಳು"
 
 #: translate.c:6
 msgid "downloads"
-msgstr "ಇಳಿಕೆಗಳು"
+msgstr "ಡೌನ್‌ಲೋಡ್‌ಗಳು"
 
 #: translate.c:7
 msgid "Movies"
@@ -82,7 +82,7 @@ msgstr "ಛಾಯಚಿತ್ರಗಳು"
 
 #: translate.c:9
 msgid "photos"
-msgstr "ಛಾಯಾಚಿತ್ರಗಳು"
+msgstr "ಛಾಯಚಿತ್ರಗಳು"
 
 #  48x48/emblems/emblem-pictures.icon.in.h:1
 #: translate.c:10

@@ -124,8 +124,8 @@ msgstr "malar"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "Videoklipp"
+msgstr "Videoar"
 
 #: translate.c:15
 msgid "videos"
-msgstr "videoklipp"
+msgstr "videoar"

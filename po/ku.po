@@ -52,12 +52,10 @@ msgid "download"
 msgstr "daxistin"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
 msgstr "Daxistin"
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
 msgstr "daxistin"
 

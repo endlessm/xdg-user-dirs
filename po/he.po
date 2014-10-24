@@ -26,11 +26,11 @@ msgstr "יישומים"
 
 #: translate.c:3
 msgid "Desktop"
-msgstr "שולחן עבודה"
+msgstr "שולחן העבודה"
 
 #: translate.c:3
 msgid "desktop"
-msgstr "שולחן עבודה"
+msgstr "שולחן העבודה"
 
 #: translate.c:4
 msgid "Documents"
@@ -66,19 +66,19 @@ msgstr "סרטים"
 
 #: translate.c:8
 msgid "Music"
-msgstr "מוסיקה"
+msgstr "מוזיקה"
 
 #: translate.c:8
 msgid "music"
-msgstr "מוסיקה"
+msgstr "מוזיקה"
 
 #: translate.c:9
 msgid "Photos"
-msgstr "תצלומים"
+msgstr "תמונות"
 
 #: translate.c:9
 msgid "photos"
-msgstr "תצלומים"
+msgstr "תמונות"
 
 #: translate.c:10
 msgid "Pictures"
@@ -90,19 +90,19 @@ msgstr "תמונות"
 
 #: translate.c:11
 msgid "Projects"
-msgstr "פרוייקטים"
+msgstr "פרויקטים"
 
 #: translate.c:11
 msgid "projects"
-msgstr "פרוייקטים"
+msgstr "פרויקטים"
 
 #: translate.c:12
 msgid "Public"
-msgstr "ציבורי"
+msgstr "ציבורית"
 
 #: translate.c:12
 msgid "public"
-msgstr "ציבורי"
+msgstr "ציבורית"
 
 #: translate.c:13
 msgid "Share"
@@ -122,8 +122,8 @@ msgstr "תבניות"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "וידאו"
+msgstr "סרטונים"
 
 #: translate.c:15
 msgid "videos"
-msgstr "וידאו"
+msgstr "סרטונים"

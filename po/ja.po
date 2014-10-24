@@ -58,35 +58,35 @@ msgstr "ダウンロード"
 
 #: translate.c:7
 msgid "Movies"
-msgstr "映画"
+msgstr "ムービー"
 
 #: translate.c:7
 msgid "movies"
-msgstr "映画"
+msgstr "ムービー"
 
 #: translate.c:8
 msgid "Music"
-msgstr "音楽"
+msgstr "ミュージック"
 
 #: translate.c:8
 msgid "music"
-msgstr "音楽"
+msgstr "ミュージック"
 
 #: translate.c:9
 msgid "Photos"
-msgstr "写真"
+msgstr "フォト"
 
 #: translate.c:9
 msgid "photos"
-msgstr "写真"
+msgstr "フォト"
 
 #: translate.c:10
 msgid "Pictures"
-msgstr "画像"
+msgstr "ピクチャ"
 
 #: translate.c:10
 msgid "pictures"
-msgstr "画像"
+msgstr "ピクチャ"
 
 #: translate.c:11
 msgid "Projects"

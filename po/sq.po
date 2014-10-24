@@ -48,17 +48,15 @@ msgstr "Shkarkuar"
 
 #: translate.c:5
 msgid "download"
-msgstr "shkarkuar"
+msgstr "shkarko"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
-msgstr "Shkarkuar"
+msgstr "Shkarkimet"
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
-msgstr "shkarkuar"
+msgstr "shkarkimet"
 
 #: translate.c:7
 msgid "Movies"
@@ -110,7 +108,7 @@ msgstr "publike"
 
 #: translate.c:13
 msgid "Share"
-msgstr "Të përbashkët"
+msgstr "Ndaje"
 
 #: translate.c:13
 msgid "share"

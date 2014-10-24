@@ -43,11 +43,11 @@ msgstr "documentos"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Transferência"
+msgstr "Download"
 
 #: translate.c:5
 msgid "download"
-msgstr "transferência"
+msgstr "download"
 
 #: translate.c:6
 msgid "Downloads"

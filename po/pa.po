@@ -20,15 +20,15 @@ msgstr ""
 
 #: translate.c:2
 msgid "Applications"
-msgstr ""
+msgstr "Applications"
 
 #: translate.c:2
 msgid "applications"
-msgstr ""
+msgstr "ਕਾਰਜ"
 
 #: translate.c:3
 msgid "Desktop"
-msgstr "ਡੈਸਕਟਾਪ"
+msgstr "Desktop"
 
 #: translate.c:3
 msgid "desktop"
@@ -36,7 +36,7 @@ msgstr "ਡੈਸਕਟਾਪ"
 
 #: translate.c:4
 msgid "Documents"
-msgstr "ਦਸਤਾਵੇਜ਼"
+msgstr "Documents"
 
 #: translate.c:4
 msgid "documents"
@@ -44,25 +44,23 @@ msgstr "ਦਸਤਾਵੇਜ਼"
 
 #: translate.c:5
 msgid "Download"
-msgstr "ਡਾਊਨਲੋਡ"
+msgstr "Download"
 
 #: translate.c:5
 msgid "download"
 msgstr "ਡਾਊਨਲੋਡ"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
-msgstr "ਡਾਊਨਲੋਡ"
+msgstr "Downloads"
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
 msgstr "ਡਾਊਨਲੋਡ"
 
 #: translate.c:7
 msgid "Movies"
-msgstr "ਮੂਵੀ"
+msgstr "Movies"
 
 #: translate.c:7
 msgid "movies"
@@ -70,7 +68,7 @@ msgstr "ਮੂਵੀ"
 
 #: translate.c:8
 msgid "Music"
-msgstr "ਸੰਗੀਤ"
+msgstr "Music"
 
 #: translate.c:8
 msgid "music"
@@ -78,7 +76,7 @@ msgstr "ਸੰਗੀਤ"
 
 #: translate.c:9
 msgid "Photos"
-msgstr "ਫੋਟੋ"
+msgstr "Photos"
 
 #: translate.c:9
 msgid "photos"
@@ -86,7 +84,7 @@ msgstr "ਫੋਟੋ"
 
 #: translate.c:10
 msgid "Pictures"
-msgstr "ਤਸਵੀਰਾਂ"
+msgstr "Pictures"
 
 #: translate.c:10
 msgid "pictures"
@@ -94,7 +92,7 @@ msgstr "ਤਸਵੀਰਾਂ"
 
 #: translate.c:11
 msgid "Projects"
-msgstr "ਪ੍ਰੋਜੈਕਟ"
+msgstr "Projects"
 
 #: translate.c:11
 msgid "projects"
@@ -102,7 +100,7 @@ msgstr "ਪ੍ਰੋਜੈਕਟ"
 
 #: translate.c:12
 msgid "Public"
-msgstr "ਪਬਲਿਕ"
+msgstr "Public"
 
 #: translate.c:12
 msgid "public"
@@ -110,7 +108,7 @@ msgstr "ਪਬਲਿਕ"
 
 #: translate.c:13
 msgid "Share"
-msgstr "ਸਾਂਝ"
+msgstr "Share"
 
 #: translate.c:13
 msgid "share"
@@ -118,15 +116,15 @@ msgstr "ਸਾਂਝ"
 
 #: translate.c:14
 msgid "Templates"
-msgstr "ਨਮੂਨੇ"
+msgstr "Templates"
 
 #: translate.c:14
 msgid "templates"
-msgstr "ਨਮੂਨੇ"
+msgstr "ਟੈਂਪਲੇਟ"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "ਵੀਡਿਓ"
+msgstr "Videos"
 
 #: translate.c:15
 msgid "videos"

@@ -31,11 +31,11 @@ msgstr "програми"
 
 #: translate.c:3
 msgid "Desktop"
-msgstr "Стільниця"
+msgstr "Робочий стіл"
 
 #: translate.c:3
 msgid "desktop"
-msgstr "стільниця"
+msgstr "робочий стіл"
 
 #: translate.c:4
 msgid "Documents"
@@ -55,11 +55,11 @@ msgstr "завантаження"
 
 #: translate.c:6
 msgid "Downloads"
-msgstr "Завантажене"
+msgstr "Завантаження"
 
 #: translate.c:6
 msgid "downloads"
-msgstr "завантажене"
+msgstr "завантаження"
 
 #: translate.c:7
 msgid "Movies"
@@ -103,19 +103,19 @@ msgstr "проекти"
 
 #: translate.c:12
 msgid "Public"
-msgstr "Загальне"
+msgstr "Загальнодоступні"
 
 #: translate.c:12
 msgid "public"
-msgstr "загальне"
+msgstr "загальнодоступні"
 
 #: translate.c:13
 msgid "Share"
-msgstr "Спільне"
+msgstr "Спільні файли"
 
 #: translate.c:13
 msgid "share"
-msgstr "спільне"
+msgstr "спільні файли"
 
 #: translate.c:14
 msgid "Templates"

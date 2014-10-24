@@ -62,11 +62,11 @@ msgstr "डाउनलोड"
 
 #: translate.c:7
 msgid "Movies"
-msgstr "मूवी"
+msgstr "चलचित्र"
 
 #: translate.c:7
 msgid "movies"
-msgstr "मूवी"
+msgstr "चलचित्र"
 
 #: translate.c:8
 msgid "Music"
@@ -78,27 +78,27 @@ msgstr "संगीत"
 
 #: translate.c:9
 msgid "Photos"
-msgstr "फ़ोटो"
+msgstr "फोटो"
 
 #: translate.c:9
 msgid "photos"
-msgstr "फ़ोटो"
+msgstr "फोटो"
 
 #: translate.c:10
 msgid "Pictures"
-msgstr "तस्वीर"
+msgstr "चित्र"
 
 #: translate.c:10
 msgid "pictures"
-msgstr "तस्वीर"
+msgstr "चित्र"
 
 #: translate.c:11
 msgid "Projects"
-msgstr "परियोजना"
+msgstr "परियोजनाएँ"
 
 #: translate.c:11
 msgid "projects"
-msgstr "परियोजना"
+msgstr "परियोजनाएँ"
 
 #: translate.c:12
 msgid "Public"
@@ -110,19 +110,19 @@ msgstr "सार्वजनिक"
 
 #: translate.c:13
 msgid "Share"
-msgstr "साझेदारी"
+msgstr "साझा करें"
 
 #: translate.c:13
 msgid "share"
-msgstr "साझेदारी"
+msgstr "साझा करें"
 
 #: translate.c:14
 msgid "Templates"
-msgstr "नमूना ख़ाका"
+msgstr "नमूना"
 
 #: translate.c:14
 msgid "templates"
-msgstr "नमूना ख़ाका"
+msgstr "नमूना"
 
 #: translate.c:15
 msgid "Videos"

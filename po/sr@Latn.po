@@ -53,14 +53,12 @@ msgid "download"
 msgstr "preuzeto"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
-msgstr "Preuzeto"
+msgstr ""
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
-msgstr "preuzeto"
+msgstr ""
 
 #: translate.c:7
 msgid "Movies"

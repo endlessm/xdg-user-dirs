@@ -32,7 +32,7 @@ msgstr "Schreibtisch"
 
 #: translate.c:3
 msgid "desktop"
-msgstr "schreibtisch"
+msgstr "Schreibtisch"
 
 #: translate.c:4
 msgid "Documents"
@@ -44,11 +44,11 @@ msgstr "dokumente"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Download"
+msgstr "Downloads"
 
 #: translate.c:5
 msgid "download"
-msgstr "download"
+msgstr "downloads"
 
 #: translate.c:6
 msgid "Downloads"

@@ -45,11 +45,11 @@ msgstr "asiakirjat"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Lataa"
+msgstr "Lataukset"
 
 #: translate.c:5
 msgid "download"
-msgstr "lataa"
+msgstr "lataukset"
 
 #: translate.c:6
 msgid "Downloads"

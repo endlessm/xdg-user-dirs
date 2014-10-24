@@ -47,7 +47,7 @@ msgstr "Baixada"
 
 #: translate.c:5
 msgid "download"
-msgstr "baixada"
+msgstr "baixades"
 
 #: translate.c:6
 msgid "Downloads"

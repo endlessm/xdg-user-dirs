@@ -93,11 +93,11 @@ msgstr "รูปภาพ"
 
 #: translate.c:11
 msgid "Projects"
-msgstr "โครงการ"
+msgstr "โครงงาน"
 
 #: translate.c:11
 msgid "projects"
-msgstr "โครงการ"
+msgstr "โครงงาน"
 
 #: translate.c:12
 msgid "Public"

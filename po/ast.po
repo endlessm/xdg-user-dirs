@@ -24,7 +24,7 @@ msgstr "Aplicaciones"
 
 #: translate.c:2
 msgid "applications"
-msgstr "aplicaciones"
+msgstr "Aplicaciones"
 
 #: translate.c:3
 msgid "Desktop"
@@ -44,11 +44,11 @@ msgstr "documentos"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Descarga"
+msgstr "Baxada"
 
 #: translate.c:5
 msgid "download"
-msgstr "descarga"
+msgstr "baxada"
 
 #: translate.c:6
 msgid "Downloads"
@@ -124,8 +124,8 @@ msgstr "plantíes"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "Videos"
+msgstr "Vídeos"
 
 #: translate.c:15
 msgid "videos"
-msgstr "videos"
+msgstr "vídeos"

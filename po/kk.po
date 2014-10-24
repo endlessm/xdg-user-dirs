@@ -21,11 +21,11 @@ msgstr ""
 
 #: translate.c:2
 msgid "Applications"
-msgstr "Қолданбалар"
+msgstr "Бағдарламалар"
 
 #: translate.c:2
 msgid "applications"
-msgstr "қолданбалар"
+msgstr "бағдарламалар"
 
 #: translate.c:3
 msgid "Desktop"
@@ -45,11 +45,11 @@ msgstr "құжаттар"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Жүктемелер"
+msgstr "Жүктеу"
 
 #: translate.c:5
 msgid "download"
-msgstr "жүктемелер"
+msgstr "жүктеу"
 
 #: translate.c:6
 msgid "Downloads"
@@ -69,11 +69,11 @@ msgstr "фильмдер"
 
 #: translate.c:8
 msgid "Music"
-msgstr "Музыка"
+msgstr "Өлеңдер"
 
 #: translate.c:8
 msgid "music"
-msgstr "музыка"
+msgstr "өлеңдер"
 
 #: translate.c:9
 msgid "Photos"
@@ -101,19 +101,19 @@ msgstr "жобалар"
 
 #: translate.c:12
 msgid "Public"
-msgstr "Ортақ"
+msgstr "Көпшілікке қол жетімді"
 
 #: translate.c:12
 msgid "public"
-msgstr "ортақ"
+msgstr "көпшілікке қол жетімді"
 
 #: translate.c:13
 msgid "Share"
-msgstr "Бөлісу"
+msgstr "Жария"
 
 #: translate.c:13
 msgid "share"
-msgstr "бөлісу"
+msgstr "жария"
 
 #: translate.c:14
 msgid "Templates"
@@ -125,8 +125,8 @@ msgstr "үлгілер"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "Видеолар"
+msgstr "Видео"
 
 #: translate.c:15
 msgid "videos"
-msgstr "видеолар"
+msgstr "видео"

@@ -46,11 +46,11 @@ msgstr "документы"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Загрузка"
+msgstr "Загрузки"
 
 #: translate.c:5
 msgid "download"
-msgstr "загрузка"
+msgstr "загрузки"
 
 #: translate.c:6
 msgid "Downloads"

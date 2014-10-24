@@ -19,11 +19,11 @@ msgstr ""
 
 #: translate.c:2
 msgid "Applications"
-msgstr "Програми"
+msgstr "Приложения"
 
 #: translate.c:2
 msgid "applications"
-msgstr "програми"
+msgstr "приложения"
 
 #: translate.c:3
 msgid "Desktop"

@@ -45,11 +45,11 @@ msgstr "documentos"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Descarga"
+msgstr "Descargas"
 
 #: translate.c:5
 msgid "download"
-msgstr "descarga"
+msgstr "descargas"
 
 #: translate.c:6
 msgid "Downloads"
@@ -113,7 +113,7 @@ msgstr "Compartido"
 
 #: translate.c:13
 msgid "share"
-msgstr "Compartido"
+msgstr "compartido"
 
 #: translate.c:14
 msgid "Templates"
