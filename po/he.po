@@ -1,20 +1,20 @@
 # Hebrew translation for xdg-user-dirs.
-# This file is distributed under the same license as the xdg-user-dirs package.
+# This file is distributed under the same license as the PACKAGE package.
 # Yair Hershkoviz <yairhr@gmail.com>, 2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: xdg-user-dirs 0.14\n"
+"Project-Id-Version: xdg-user-dirs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-13 09:17+0200\n"
-"PO-Revision-Date: 2013-06-20 16:41+0200\n"
-"Last-Translator: Isratine Citizen <genghiskhan@gmx.ca>\n"
+"POT-Creation-Date: 2009-09-18 14:16+0200\n"
+"PO-Revision-Date: 2010-09-29 14:37+0000\n"
+"Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <eliz@gnu.org>\n"
-"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Launchpad-Export-Date: 2014-10-17 15:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: translate.c:2
 msgid "Applications"
@@ -26,11 +26,11 @@ msgstr "יישומים"
 
 #: translate.c:3
 msgid "Desktop"
-msgstr "שולחן עבודה"
+msgstr "שולחן העבודה"
 
 #: translate.c:3
 msgid "desktop"
-msgstr "שולחן עבודה"
+msgstr "שולחן העבודה"
 
 #: translate.c:4
 msgid "Documents"
@@ -66,19 +66,19 @@ msgstr "סרטים"
 
 #: translate.c:8
 msgid "Music"
-msgstr "מוסיקה"
+msgstr "מוזיקה"
 
 #: translate.c:8
 msgid "music"
-msgstr "מוסיקה"
+msgstr "מוזיקה"
 
 #: translate.c:9
 msgid "Photos"
-msgstr "תצלומים"
+msgstr "תמונות"
 
 #: translate.c:9
 msgid "photos"
-msgstr "תצלומים"
+msgstr "תמונות"
 
 #: translate.c:10
 msgid "Pictures"
@@ -90,19 +90,19 @@ msgstr "תמונות"
 
 #: translate.c:11
 msgid "Projects"
-msgstr "פרוייקטים"
+msgstr "פרויקטים"
 
 #: translate.c:11
 msgid "projects"
-msgstr "פרוייקטים"
+msgstr "פרויקטים"
 
 #: translate.c:12
 msgid "Public"
-msgstr "ציבורי"
+msgstr "ציבורית"
 
 #: translate.c:12
 msgid "public"
-msgstr "ציבורי"
+msgstr "ציבורית"
 
 #: translate.c:13
 msgid "Share"
@@ -122,8 +122,8 @@ msgstr "תבניות"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "וידאו"
+msgstr "סרטונים"
 
 #: translate.c:15
 msgid "videos"
-msgstr "וידאו"
+msgstr "סרטונים"

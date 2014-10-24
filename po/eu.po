@@ -1,22 +1,20 @@
 # Translation of xdg-user-dirs to Basque.
-# This file is distributed under the same license as the xdg-user-dirs package.
+# This file is distributed under the same license as the PACKAGE package.
 #
 # Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2008.
-# Mikel Olasagasti Uranga <hey_neken@mundurat.net>, 2010.
 msgid ""
 msgstr ""
-"Project-Id-Version: xdg-user-dirs-0.12\n"
+"Project-Id-Version: xdg-user-dirs.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 10:18+0200\n"
-"PO-Revision-Date: 2010-07-17 17:50+0100\n"
-"Last-Translator: Mikel Olasagasti Uranga <hey_neken@mundurat.net>\n"
+"POT-Creation-Date: 2009-09-18 14:16+0200\n"
+"PO-Revision-Date: 2009-10-21 12:38+0000\n"
+"Last-Translator: Mikel Pascual Aldabaldetreku <mikel.paskual@gmail.com>\n"
 "Language-Team: Basque <translation-team-eu@lists.sourceforge.net>\n"
-"Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Launchpad-Export-Date: 2014-10-17 15:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: translate.c:2
 msgid "Applications"
@@ -44,11 +42,11 @@ msgstr "dokumentuak"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Deskargak"
+msgstr "Deskarga"
 
 #: translate.c:5
 msgid "download"
-msgstr "deskargak"
+msgstr "deskarga"
 
 #: translate.c:6
 msgid "Downloads"
@@ -60,11 +58,11 @@ msgstr "deskargak"
 
 #: translate.c:7
 msgid "Movies"
-msgstr "Filmeak"
+msgstr "Filmak"
 
 #: translate.c:7
 msgid "movies"
-msgstr "filmeak"
+msgstr "filmak"
 
 #: translate.c:8
 msgid "Music"

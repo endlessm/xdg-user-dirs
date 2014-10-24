@@ -1,21 +1,22 @@
 # Catalan translations for xdg-user-dirs package
 # Traduccions al català del paquet «xdg-user-dirs».
-# Copyright (C) 2007-2010 Red Hat, Inc
+# Copyright (C) 2007 Red Hat, Inc
 # This file is distributed under the same license as the xdg-user-dirs package.
-# Josep Puigdemont <josep.puigdemont@gmail.com>, 2007, 2010.
+# Josep Puigdemont <josep.puigdemont@gmail.com>, 2007.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: xdg-user-dirs 0.12\n"
+"Project-Id-Version: xdg-user-dirs 0.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 10:18+0200\n"
-"PO-Revision-Date: 2010-10-01 10:25+0200\n"
-"Last-Translator: Josep Puigdemont <josep.puigdemont@gmail.com>\n"
+"POT-Creation-Date: 2009-09-18 14:16+0200\n"
+"PO-Revision-Date: 2009-10-18 19:51+0000\n"
+"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@dodds.net>\n"
-"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-10-17 15:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: translate.c:2
 msgid "Applications"
@@ -47,7 +48,7 @@ msgstr "Baixada"
 
 #: translate.c:5
 msgid "download"
-msgstr "baixada"
+msgstr "baixades"
 
 #: translate.c:6
 msgid "Downloads"

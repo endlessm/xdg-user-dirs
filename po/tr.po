@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xdg-user-dirs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 10:18+0200\n"
-"PO-Revision-Date: 2007-02-27 15:22:+0100\n"
-"Last-Translator: Baris Cicek <baris@teamforce.name.tr>\n"
+"POT-Creation-Date: 2009-09-18 14:16+0200\n"
+"PO-Revision-Date: 2009-10-06 17:19+0000\n"
+"Last-Translator: Efe Çiftci <efe.ciftci@linux.org.tr>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
-"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-10-17 15:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: translate.c:2
 msgid "Applications"
@@ -49,12 +50,10 @@ msgid "download"
 msgstr "indirilenler"
 
 #: translate.c:6
-#, fuzzy
 msgid "Downloads"
 msgstr "İndirilenler"
 
 #: translate.c:6
-#, fuzzy
 msgid "downloads"
 msgstr "indirilenler"
 

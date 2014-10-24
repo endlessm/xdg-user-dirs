@@ -6,22 +6,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xdg-user-dirs-0.11-pre1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 10:18+0200\n"
-"PO-Revision-Date: 2009-09-19 20:03-0300\n"
-"Last-Translator: Felipe Castro <fefcas@gmail.com>\n"
+"POT-Creation-Date: 2009-09-18 14:16+0200\n"
+"PO-Revision-Date: 2012-02-15 13:44+0000\n"
+"Last-Translator: Michael Moroni <michael.moroni@openmailbox.org>\n"
 "Language-Team: Esperanto <translation-team-eo@lists.sourceforge.net>\n"
-"Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-10-17 15:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: translate.c:2
 msgid "Applications"
-msgstr "Aplikaĵoj"
+msgstr "Aplikaĵujo"
 
 #: translate.c:2
 msgid "applications"
-msgstr "aplikaĵoj"
+msgstr "aplikaĵujo"
 
 #: translate.c:3
 msgid "Desktop"
@@ -33,96 +34,96 @@ msgstr "labortablo"
 
 #: translate.c:4
 msgid "Documents"
-msgstr "Dokumentoj"
+msgstr "Dokumentujo"
 
 #: translate.c:4
 msgid "documents"
-msgstr "dokumentoj"
+msgstr "dokumentujo"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Elŝuto"
+msgstr "Elŝutujo"
 
 #: translate.c:5
 msgid "download"
-msgstr "elŝuto"
+msgstr "elŝutujo"
 
 #: translate.c:6
 msgid "Downloads"
-msgstr "Elŝutoj"
+msgstr "Elŝutujo"
 
 #: translate.c:6
 msgid "downloads"
-msgstr "elŝutoj"
+msgstr "elŝutujo"
 
 #: translate.c:7
 msgid "Movies"
-msgstr "Filmoj"
+msgstr "Filmujo"
 
 #: translate.c:7
 msgid "movies"
-msgstr "filmoj"
+msgstr "filmujo"
 
 #: translate.c:8
 msgid "Music"
-msgstr "Muziko"
+msgstr "Muzikujo"
 
 #: translate.c:8
 msgid "music"
-msgstr "muziko"
+msgstr "muzikujo"
 
 #: translate.c:9
 msgid "Photos"
-msgstr "Fotaĵoj"
+msgstr "Fotujo"
 
 #: translate.c:9
 msgid "photos"
-msgstr "fotaĵoj"
+msgstr "fotujo"
 
 #: translate.c:10
 msgid "Pictures"
-msgstr "Bildoj"
+msgstr "Bildujo"
 
 #: translate.c:10
 msgid "pictures"
-msgstr "bildoj"
+msgstr "bildujo"
 
 #: translate.c:11
 msgid "Projects"
-msgstr "Projektoj"
+msgstr "Projektujo"
 
 #: translate.c:11
 msgid "projects"
-msgstr "projektoj"
+msgstr "projektujo"
 
 #: translate.c:12
 msgid "Public"
-msgstr "Publike"
+msgstr "Publikujo"
 
 #: translate.c:12
 msgid "public"
-msgstr "publike"
+msgstr "publikujo"
 
 #: translate.c:13
 msgid "Share"
-msgstr "Komune"
+msgstr "Kunhavigujo"
 
 #: translate.c:13
 msgid "share"
-msgstr "komune"
+msgstr "kunhavigujo"
 
 #: translate.c:14
 msgid "Templates"
-msgstr "Ŝablonoj"
+msgstr "Ŝablonujo"
 
 #: translate.c:14
 msgid "templates"
-msgstr "ŝablonoj"
+msgstr "ŝablonujo"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "Videoj"
+msgstr "Videujo"
 
 #: translate.c:15
 msgid "videos"
-msgstr "videoj"
+msgstr "videujo"

@@ -1,21 +1,21 @@
-# translation of xdg-user-dirs-0.14.po to Icelandic
-# Copyright (C) 2009 Free Software Foundation
+# translation of xdg-user-dirs-0.10.po to Icelandic
+# Copyright (C) 2009 Red Hat, Inc
 # This file is distributed under the same license as the xdg-user-dirs package.
-# Sveinn í Felli <sveinki@nett.is>, 2009, 2011.
+# Sveinn í Felli <sveinki@nett.is>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: xdg-user-dirs-0.14\n"
+"Project-Id-Version: xdg-user-dirs-0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 10:18+0200\n"
-"PO-Revision-Date: 2011-05-09 14:12+0000\n"
-"Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
-"Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
-"Language: is\n"
+"POT-Creation-Date: 2009-09-18 14:16+0200\n"
+"PO-Revision-Date: 2009-10-12 06:54+0000\n"
+"Last-Translator: Baldur <baldurpet@gmail.com>\n"
+"Language-Team: Icelandic <(nothing)>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Launchpad-Export-Date: 2014-10-17 15:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: translate.c:2
 msgid "Applications"
@@ -51,11 +51,11 @@ msgstr "niðurhal"
 
 #: translate.c:6
 msgid "Downloads"
-msgstr "Sóttar skrár"
+msgstr "Sótt gögn"
 
 #: translate.c:6
 msgid "downloads"
-msgstr "sóttar skrár"
+msgstr "sótt gögn"
 
 #: translate.c:7
 msgid "Movies"
@@ -99,11 +99,11 @@ msgstr "verkefni"
 
 #: translate.c:12
 msgid "Public"
-msgstr "Opið"
+msgstr "Opið öllum"
 
 #: translate.c:12
 msgid "public"
-msgstr "opið"
+msgstr "opið öllum"
 
 #: translate.c:13
 msgid "Share"
@@ -115,16 +115,16 @@ msgstr "sameign"
 
 #: translate.c:14
 msgid "Templates"
-msgstr "Sniðmát"
+msgstr "Snið"
 
 #: translate.c:14
 msgid "templates"
-msgstr "sniðmát"
+msgstr "snið"
 
 #: translate.c:15
 msgid "Videos"
-msgstr "Vídeó"
+msgstr "Myndbönd"
 
 #: translate.c:15
 msgid "videos"
-msgstr "vídeó"
+msgstr "myndbönd"

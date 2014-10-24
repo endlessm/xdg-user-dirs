@@ -4,18 +4,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: xdg-user-dirs 0.14\n"
+"Project-Id-Version: xdg-user-dirs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 10:18+0200\n"
-"PO-Revision-Date: 2011-08-17 00:30+0100\n"
-"Last-Translator: Tiago Neiva <tneiva@gmail.com>\n"
+"POT-Creation-Date: 2009-09-18 14:16+0200\n"
+"PO-Revision-Date: 2009-10-18 19:18+0000\n"
+"Last-Translator: Pedro Flores <pedroflores16@gmail.com>\n"
 "Language-Team: Portuguese <translation-team-pt@lists.sourceforge.net>\n"
-"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Portuguese\n"
-"X-Poedit-Country: PORTUGAL\n"
+"X-Launchpad-Export-Date: 2014-10-17 15:38+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: translate.c:2
 msgid "Applications"
@@ -43,11 +42,11 @@ msgstr "documentos"
 
 #: translate.c:5
 msgid "Download"
-msgstr "Transferência"
+msgstr "Download"
 
 #: translate.c:5
 msgid "download"
-msgstr "transferência"
+msgstr "download"
 
 #: translate.c:6
 msgid "Downloads"
