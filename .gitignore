@@ -16,6 +16,12 @@ missing
 stamp-h1
 *~
 
+man/user-dirs.conf.5
+man/user-dirs.defaults.5
+man/user-dirs.dirs.5
+man/xdg-user-dir.1
+man/xdg-user-dirs-update.1
+
 po/remove-potcdate.sed
 po/stamp-po
 po/xdg-user-dirs.pot
@@ -24,7 +30,7 @@ po/POTFILES
 
 *.o
 
-xdg-user-dir-lookup
+xdg-user-dir
 xdg-user-dirs-update
 
 xdg-user-dirs-*.tar*
