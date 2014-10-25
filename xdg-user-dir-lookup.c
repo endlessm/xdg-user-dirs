@@ -203,7 +203,6 @@ xdg_user_dir_lookup (const char *type)
   return strdup (home_dir);
 }
 
-#ifdef STANDALONE_XDG_USER_DIR_LOOKUP
 int
 main (int argc, char *argv[])
 {
@@ -216,4 +215,3 @@ main (int argc, char *argv[])
   printf ("%s\n", xdg_user_dir_lookup (argv[1]));
   return 0;
 }
-#endif
