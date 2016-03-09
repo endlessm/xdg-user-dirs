@@ -883,28 +883,6 @@ get_translated_path_name (Directory *default_dir,
   return path_name;
 }
 
-static void
-update_user_dirs_path (const char *old_path,
-                       const char *new_path)
-{
-  GList *l;
-  Directory *user_dir;
-  const char *p;
-  char *new_full_path;
-
-  for (l = user_dirs; l != NULL; l = l->next)
-    {
-      user_dir = l->data;
-      if (!g_str_has_prefix (user_dir->path, old_path))
-        continue;
-
-      p = user_dir->path + strlen (old_path);
-      new_full_path = g_build_filename (new_path, p, NULL);
-      g_free (user_dir->path);
-      user_dir->path = new_full_path;
-    }
-}
-
 static int
 default_dirs_compare (gconstpointer a,
                       gconstpointer b)
@@ -1015,18 +993,32 @@ create_default_dirs (gboolean force, gboolean for_dummy_file)
             }
           else
             {
-              /* We forced an update */
+              GList *m;
+              Directory *dir;
+              const char *p;
+              char *new_full_path;
+
+              /* We forced an update; update all the other paths that contain
+               * the old path to the one we just renamed to
+               */
               printf ("Moving %s directory from %s to %s\n",
                       default_dir->name, old_relative_path_name, relative_path_name);
-              g_free (user_dir->path);
-              user_dir->path = g_strdup (relative_path_name);
-            }
 
-          /* Now update all the other paths that contain the old
-           * path to the one we just renamed to
-           */
-          if (old_relative_path_name != NULL)
-            update_user_dirs_path (old_relative_path_name, relative_path_name);
+              for (m = user_dirs; m != NULL; m = m->next)
+                {
+                  dir = m->data;
+                  if (!g_str_has_prefix (dir->path, old_relative_path_name))
+                    continue;
+
+                  p = dir->path + strlen (old_relative_path_name);
+                  if (*p != G_DIR_SEPARATOR && *p != '\0')
+                    continue;
+
+                  new_full_path = g_build_filename (relative_path_name, p, NULL);
+                  g_free (dir->path);
+                  dir->path = new_full_path;
+                }
+            }
         }
 
       g_free (old_relative_path_name);
