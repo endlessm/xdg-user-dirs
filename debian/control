@@ -11,6 +11,7 @@ Build-Depends: debhelper-compat (= 12),
                docbook-xml,
                docbook-xsl,
                gnome-pkg-tools (>= 0.19.8),
+               libglib2.0-dev,
                xsltproc
 Standards-Version: 4.3.0
 Vcs-Browser: https://salsa.debian.org/gnome-team/xdg-user-dirs
