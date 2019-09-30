@@ -9,9 +9,9 @@ Upstream Author:
 
 Copyright:
 
-  For everyting not listed below:
+  For everything not listed below:
   Copyright (C) 2007 Red Hat, Inc
-  
+
   For po/ru.po,
       po/th.po,
       po/ja.po,
@@ -35,7 +35,7 @@ Copyright:
       po/pt.po:
   Copyright © 2007 xdg-user-dirs
 
-  For po/zh_CN.po:  
+  For po/zh_CN.po:
   Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
 
 License:
@@ -46,7 +46,7 @@ For everything except xdg-user-dir-lookup.c:
   modify it under the terms of the GNU General Public License as
   published by the Free Software Foundation; either version 2 of the
   License, or (at your option) any later version.
- 
+
   This package is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -57,7 +57,7 @@ For everything except xdg-user-dir-lookup.c:
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 On Debian systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL'.
+Public License can be found in `/usr/share/common-licenses/GPL-2'.
 
 For xdg-user-dir-lookup.c:
 
@@ -67,10 +67,10 @@ For xdg-user-dir-lookup.c:
   including without limitation the rights to use, copy, modify, merge,
   publish, distribute, sublicense, and/or sell copies of the Software,
   and to permit persons to whom the Software is furnished to do so,
-  subject to the following conditions: 
+  subject to the following conditions:
 
   The above copyright notice and this permission notice shall be
-  included in all copies or substantial portions of the Software. 
+  included in all copies or substantial portions of the Software.
 
   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -80,4 +80,3 @@ For xdg-user-dir-lookup.c:
   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
   SOFTWARE.
-
