@@ -1,3 +1,13 @@
+xdg-user-dirs (0.17-2endless1) eos; urgency=medium
+
+  * d/control{,.in}: Reapply added dependency on libglib2.0-dev.
+  * Dropped change to include autoreconf.mk, as this is now handled by dh and
+    was fixed by Debian.
+  * Dropped changes to debian/patches, as this is applied in git to the master
+    branch.
+
+ -- Philip Chimento <philip@endlessm.com>  Mon, 30 Sep 2019 12:07:12 -0700
+
 xdg-user-dirs (0.17-2) unstable; urgency=medium
 
   * Build-Depend on debhelper-compat 12 and drop debian/compat
